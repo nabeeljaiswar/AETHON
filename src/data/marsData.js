@@ -66,7 +66,30 @@ export const SCIENCE_TARGETS = [
   }
 ];
 
-// High-Resolution Real NASA Curiosity Surface Recon Library for Click-Anywhere Inspection
+export const WEATHER_STATIONS = [
+  {
+    id: 'MEDA-WS1',
+    name: 'NORTH RIDGE MET STATION',
+    lngLat: [137.4025, -4.6425],
+    elevOffset: +32,
+    windMultiplier: 1.22
+  },
+  {
+    id: 'MEDA-WS2',
+    name: 'BAGNOLD DUNE ANEMOMETER',
+    lngLat: [137.3955, -4.6535],
+    elevOffset: -18,
+    windMultiplier: 1.45
+  },
+  {
+    id: 'MEDA-WS3',
+    name: 'SULFATE BASIN BAROMETER',
+    lngLat: [137.4085, -4.6510],
+    elevOffset: -29,
+    windMultiplier: 0.92
+  }
+];
+
 export const SURFACE_RECON_CATALOG = [
   {
     zone: 'SULFATE BOXWORK FRACTURE ZONE',
@@ -104,7 +127,7 @@ export const SURFACE_RECON_CATALOG = [
     zone: 'VERA RUBIN RIDGE HEMATITE EXPOSURE',
     camera: 'MSL Mastcam Calibrated Color // NASA/JPL-Caltech/MSSS',
     imageUrl: 'https://images-assets.nasa.gov/image/PIA22210/PIA22210~orig.jpg',
-    mineralogy: 'Crystalline Gray Hematite & phyllosilicate clay beds',
+    mineralogy: 'Crystalline Gray Hematite & Phyllosilicate Clay Beds',
     geologyNote:
       'Dense, erosion-resistant ridge crest with high bearing strength and unobstructed horizon lines for optical TRN navigation.'
   },
@@ -118,7 +141,6 @@ export const SURFACE_RECON_CATALOG = [
   }
 ];
 
-// Deterministic Ground-Truth Recon Lookup for Any Clicked Coordinate
 export function getSurfaceReconAtLngLat(lng, lat) {
   const hash = Math.abs(Math.floor((lat * 10000 + lng * 10000) * 13.7));
   const item = SURFACE_RECON_CATALOG[hash % SURFACE_RECON_CATALOG.length];
@@ -126,7 +148,7 @@ export function getSurfaceReconAtLngLat(lng, lat) {
   const elev = Math.round(-4425 + Math.sin(lat * 900) * 35 + Math.cos(lng * 900) * 28);
   const slope = +(Math.abs(Math.cos(lat * 1200) * 16 + Math.sin(lng * 1100) * 6)).toFixed(1);
   const thermalInertia = Math.round(410 + Math.sin((lat + lng) * 800) * 85);
-  const svf = +(0.38 + (Math.abs(Math.sin(lat * 650)) * 0.45)).toFixed(2);
+  const svf = +(0.38 + Math.abs(Math.sin(lat * 650)) * 0.45).toFixed(2);
 
   const dLat = (lat - HABITAT_LNG_LAT[1]) * 59.2;
   const dLng = (lng - HABITAT_LNG_LAT[0]) * 59.0;
@@ -134,7 +156,7 @@ export function getSurfaceReconAtLngLat(lng, lat) {
 
   return {
     id: 'RECON',
-    code: `RECON-${String(hash % 900 + 100)}`,
+    code: `RECON-${String((hash % 900) + 100)}`,
     name: item.zone,
     lngLat: [+lng.toFixed(5), +lat.toFixed(5)],
     elevation: elev,
@@ -167,16 +189,185 @@ export const ABORT_ROUTE_LNGLAT = [
   [137.3920, -4.6460] // Gamma Shelter
 ];
 
+// Helper: Generate regular or organic 3D polygon ring
+function createPolygonRing(cLng, cLat, rLng, rLat, sides = 16, rot = 0, irregularity = 0) {
+  const coords = [];
+  for (let i = 0; i <= sides; i++) {
+    const a = (i / sides) * Math.PI * 2 + rot;
+    const jitter = irregularity ? 1 + Math.sin(i * 4.7) * irregularity : 1;
+    coords.push([
+      +(cLng + Math.cos(a) * rLng * jitter).toFixed(6),
+      +(cLat + Math.sin(a) * rLat * jitter).toFixed(6)
+    ]);
+  }
+  coords[coords.length - 1] = [...coords[0]];
+  return [coords];
+}
+
+// Helper: Generate angled 3D bar/ridge segment
+function createAngledBar(lng1, lat1, lng2, lat2, thickness) {
+  const dx = lng2 - lng1;
+  const dy = lat2 - lat1;
+  const len = Math.sqrt(dx * dx + dy * dy) || 0.0001;
+  const nx = (-dy / len) * thickness;
+  const ny = (dx / len) * thickness;
+  return [[
+    [+(lng1 + nx).toFixed(6), +(lat1 + ny).toFixed(6)],
+    [+(lng2 + nx).toFixed(6), +(lat2 + ny).toFixed(6)],
+    [+(lng2 - nx).toFixed(6), +(lat2 - ny).toFixed(6)],
+    [+(lng1 - nx).toFixed(6), +(lat1 - ny).toFixed(6)],
+    [+(lng1 + nx).toFixed(6), +(lat1 + ny).toFixed(6)]
+  ]];
+}
+
+// Build Detailed Multi-Tier 3D Martian Structures & Geological Formations
+function generateDetailed3DMeshes() {
+  const features = [];
+  const [hLng, hLat] = HABITAT_LNG_LAT;
+
+  // 1. HAB-01 MULTI-TIER GEODESIC BASE COMPOUND
+  const domeTiers = [
+    { r: 0.00055, base: 0, height: 8, color: '#27272A' },
+    { r: 0.00044, base: 8, height: 18, color: '#E4E4E7' },
+    { r: 0.00034, base: 18, height: 27, color: '#F4F4F5' },
+    { r: 0.00020, base: 27, height: 33, color: '#06B6D4' },
+    { r: 0.00004, base: 33, height: 62, color: '#38BDF8' } // Comms Mast
+  ];
+  domeTiers.forEach((t) => {
+    features.push({
+      type: 'Feature',
+      properties: { name: 'HAB-01 Main Dome', base: t.base, height: t.height, color: t.color },
+      geometry: { type: 'Polygon', coordinates: createPolygonRing(hLng, hLat, t.r, t.r, 20) }
+    });
+  });
+
+  // Secondary Lab Pod + Pressurized Airlock Tunnel
+  features.push({
+    type: 'Feature',
+    properties: { name: 'Airlock Corridor', base: 0, height: 9, color: '#71717A' },
+    geometry: { type: 'Polygon', coordinates: createAngledBar(hLng, hLat, hLng + 0.00095, hLat + 0.00035, 0.00012) }
+  });
+  features.push({
+    type: 'Feature',
+    properties: { name: 'Astrobiology Lab Module', base: 0, height: 16, color: '#D4D4D8' },
+    geometry: { type: 'Polygon', coordinates: createPolygonRing(hLng + 0.00105, hLat + 0.0004, 0.00028, 0.00028, 12) }
+  });
+
+  // 6 Solar Array Wings East of Habitat
+  for (let i = 0; i < 6; i++) {
+    const rowLat = hLat - 0.0006 - i * 0.00022;
+    features.push({
+      type: 'Feature',
+      properties: { name: `Solar Wing ${i + 1}`, base: 1, height: 5, color: '#0284C7' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: createAngledBar(hLng + 0.0006, rowLat, hLng + 0.0015, rowLat, 0.00006)
+      }
+    });
+  }
+
+  // 2. GAMMA SHELTER: 5-LAYER STEPPED SANDSTONE CLIFF OVERHANG (Actual Overhanging Scarp!)
+  const [gLng, gLat] = [137.3920, -4.6460];
+  const cliffStrata = [
+    { offsetLng: -0.0004, rLng: 0.0018, rLat: 0.0010, base: 0, height: 28, color: '#78350F' },
+    { offsetLng: -0.0002, rLng: 0.0016, rLat: 0.0009, base: 28, height: 58, color: '#92400E' },
+    { offsetLng: 0.0000, rLng: 0.0015, rLat: 0.0008, base: 58, height: 92, color: '#B45309' },
+    // Upper overhanging caprock juts EAST over the shelter alcove (base > 0 creates 3D overhang!)
+    { offsetLng: +0.00035, rLng: 0.0015, rLat: 0.00075, base: 85, height: 122, color: '#D97706' },
+    { offsetLng: +0.00020, rLng: 0.0011, rLat: 0.00055, base: 122, height: 148, color: '#F59E0B' }
+  ];
+  cliffStrata.forEach((s) => {
+    features.push({
+      type: 'Feature',
+      properties: { name: 'Gamma Sandstone Scarp', base: s.base, height: s.height, color: s.color },
+      geometry: {
+        type: 'Polygon',
+        coordinates: createPolygonRing(gLng + s.offsetLng, gLat, s.rLng, s.rLat, 14, 0.4, 0.22)
+      }
+    });
+  });
+
+  // 3. ALPHA WAYPOINT: INTERLOCKING POLYGONAL BOXWORK SULFATE RIDGES
+  const [aLng, aLat] = [137.4070, -4.6430];
+  const boxworkLines = [
+    [-0.0015, -0.0008, 0.0014, 0.0009, 26, '#A16207'],
+    [-0.0012, 0.0009, 0.0015, -0.0007, 22, '#CA8A04'],
+    [-0.0002, -0.0014, 0.0003, 0.0015, 31, '#854D0E'],
+    [-0.0014, 0.0001, 0.0012, 0.0002, 19, '#A16207'],
+    [0.0006, -0.0012, 0.0009, 0.0011, 24, '#713F12']
+  ];
+  boxworkLines.forEach(([x1, y1, x2, y2, h, col]) => {
+    features.push({
+      type: 'Feature',
+      properties: { name: 'Boxwork Sulfate Dyke', base: 0, height: h, color: col },
+      geometry: {
+        type: 'Polygon',
+        coordinates: createAngledBar(aLng + x1, aLat + y1, aLng + x2, aLat + y2, 0.00011)
+      }
+    });
+  });
+
+  // 4. BETA WAYPOINT: STEPPED LACUSTRINE MUDSTONE MESA & BOULDERS
+  const [bLng, bLat] = [137.4100, -4.6560];
+  [
+    { r: 0.0014, base: 0, height: 18, color: '#57534E' },
+    { r: 0.0010, base: 18, height: 38, color: '#78716C' },
+    { r: 0.0006, base: 38, height: 56, color: '#A8A29E' }
+  ].forEach((m) => {
+    features.push({
+      type: 'Feature',
+      properties: { name: 'Beta Mudstone Butte', base: m.base, height: m.height, color: m.color },
+      geometry: {
+        type: 'Polygon',
+        coordinates: createPolygonRing(bLng, bLat, m.r * 1.3, m.r, 12, 0.2, 0.18)
+      }
+    });
+  });
+
+  // 5. 3D IMPACT CRATER RIMS & SCATTERED BOULDER FIELDS ACROSS SECTOR
+  const craters = [
+    { lng: 137.4035, lat: -4.6518, r: 0.0009, h: 16 },
+    { lng: 137.3970, lat: -4.6425, r: 0.0011, h: 21 },
+    { lng: 137.4015, lat: -4.6455, r: 0.0006, h: 12 }
+  ];
+  craters.forEach((c) => {
+    // Crater raised rim segments
+    for (let s = 0; s < 8; s++) {
+      const a1 = (s / 8) * Math.PI * 2;
+      const a2 = ((s + 0.8) / 8) * Math.PI * 2;
+      features.push({
+        type: 'Feature',
+        properties: { name: 'Impact Crater Rim', base: 0, height: c.h, color: '#684732' },
+        geometry: {
+          type: 'Polygon',
+          coordinates: createAngledBar(
+            c.lng + Math.cos(a1) * c.r,
+            c.lat + Math.sin(a1) * c.r,
+            c.lng + Math.cos(a2) * c.r,
+            c.lat + Math.sin(a2) * c.r,
+            0.00012
+          )
+        }
+      });
+    }
+  });
+
+  return { type: 'FeatureCollection', features };
+}
+
+export const EXTRUDED_3D_FEATURES = generateDetailed3DMeshes();
+
+// Generate High-Density Topographic Contours (Every 5m Elevation Step)
 function generateTopographicContours() {
   const features = [];
   const centerLng = 137.401;
   const centerLat = -4.649;
 
-  for (let r = 0.002; r <= 0.022; r += 0.0025) {
+  for (let r = 0.0012; r <= 0.024; r += 0.0014) {
     const coords = [];
-    for (let angle = 0; angle <= 360; angle += 10) {
+    for (let angle = 0; angle <= 360; angle += 6) {
       const rad = (angle * Math.PI) / 180;
-      const warp = 1 + 0.18 * Math.sin(rad * 3) + 0.1 * Math.cos(rad * 5);
+      const warp = 1 + 0.16 * Math.sin(rad * 3) + 0.09 * Math.cos(rad * 5);
       coords.push([
         +(centerLng + Math.cos(rad) * r * 1.3 * warp).toFixed(6),
         +(centerLat + Math.sin(rad) * r * warp).toFixed(6)
@@ -184,7 +375,10 @@ function generateTopographicContours() {
     }
     features.push({
       type: 'Feature',
-      properties: { elev: Math.round(-4400 - r * 2500) },
+      properties: {
+        elev: `${Math.round(-4390 - r * 3200)}m`,
+        major: Math.round(r * 10000) % 2 === 0
+      },
       geometry: { type: 'LineString', coordinates: coords }
     });
   }
@@ -193,67 +387,55 @@ function generateTopographicContours() {
 
 export const TOPO_CONTOURS_GEOJSON = generateTopographicContours();
 
-export const EXTRUDED_3D_FEATURES = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      properties: { name: 'HAB-01 Pressurized Module', height: 42, color: '#06B6D4' },
-      geometry: {
-        type: 'Polygon',
-        coordinates: [[
-          [137.3996, -4.6496],
-          [137.4004, -4.6496],
-          [137.4004, -4.6504],
-          [137.3996, -4.6504],
-          [137.3996, -4.6496]
-        ]]
-      }
-    },
-    {
-      type: 'Feature',
-      properties: { name: 'Gamma Scarp Overhang', height: 145, color: '#10B981' },
-      geometry: {
-        type: 'Polygon',
-        coordinates: [[
-          [137.3905, -4.6445],
-          [137.3932, -4.6445],
-          [137.3935, -4.6475],
-          [137.3910, -4.6475],
-          [137.3905, -4.6445]
-        ]]
-      }
-    },
-    {
-      type: 'Feature',
-      properties: { name: 'Alpha Boxwork Ridge', height: 68, color: '#52525B' },
-      geometry: {
-        type: 'Polygon',
-        coordinates: [[
-          [137.4055, -4.6418],
-          [137.4085, -4.6422],
-          [137.4080, -4.6442],
-          [137.4052, -4.6438],
-          [137.4055, -4.6418]
-        ]]
-      }
-    },
-    {
-      type: 'Feature',
-      properties: { name: 'Beta Mudstone Butte', height: 54, color: '#3F3F46' },
-      geometry: {
-        type: 'Polygon',
-        coordinates: [[
-          [137.4088, -4.6550],
-          [137.4115, -4.6552],
-          [137.4112, -4.6572],
-          [137.4086, -4.6570],
-          [137.4088, -4.6550]
-        ]]
-      }
+// Live Dynamic Weather Vector Grid & Pressure Isobars (Updates with Time & Dust Vortex)
+export function generateWeatherGridGeoJSON(hourMtc, dustDevilActive) {
+  const features = [];
+  const baseAngle = ((hourMtc - 6) / 12) * Math.PI * 0.65 + 0.4; // Wind shifts NW -> SE across sol
+
+  for (let lng = 137.388; lng <= 137.414; lng += 0.0038) {
+    for (let lat = -4.659; lat <= -4.639; lat += 0.0035) {
+      // Swirl vectors around vortex center if dust devil is active
+      const dLng = lng - 137.401;
+      const dLat = lat - -4.648;
+      const angle = dustDevilActive
+        ? Math.atan2(dLat, dLng) + Math.PI * 0.55
+        : baseAngle + Math.sin((lng + lat) * 400) * 0.25;
+
+      const len = dustDevilActive ? 0.0019 : 0.0013;
+      const endLng = lng + Math.cos(angle) * len;
+      const endLat = lat + Math.sin(angle) * len;
+
+      // Arrowhead wings
+      const headAngle1 = angle + Math.PI * 0.82;
+      const headAngle2 = angle - Math.PI * 0.82;
+      const wingLen = len * 0.38;
+
+      features.push({
+        type: 'Feature',
+        properties: {
+          speed: dustDevilActive ? '26.4 m/s' : '8.2 m/s',
+          hazard: dustDevilActive ? 'HIGH' : 'NOMINAL'
+        },
+        geometry: {
+          type: 'MultiLineString',
+          coordinates: [
+            [
+              [lng, lat],
+              [endLng, endLat]
+            ],
+            [
+              [endLng + Math.cos(headAngle1) * wingLen, endLat + Math.sin(headAngle1) * wingLen],
+              [endLng, endLat],
+              [endLng + Math.cos(headAngle2) * wingLen, endLat + Math.sin(headAngle2) * wingLen]
+            ]
+          ]
+        }
+      });
     }
-  ]
-};
+  }
+
+  return { type: 'FeatureCollection', features };
+}
 
 export const NASA_DATASETS = [
   {
@@ -305,6 +487,7 @@ export function computeTelemetry(hourMtc, payloadKg, dustDevilActive, speAlertAc
   const tempK = Math.round(195 + diurnalFactor * 52);
   const baseWind = 3.2 + Math.pow(Math.max(0, (hourMtc - 6) / 12), 1.5) * 11.8;
   const windSpeed = dustDevilActive ? +(baseWind + 18.5).toFixed(1) : +baseWind.toFixed(1);
+  const windHeading = dustDevilActive ? 'VORTEX SWIRL' : hourMtc < 12 ? '295° WNW' : '135° SE';
 
   const localPressurePa = +(638 - diurnalFactor * 34).toFixed(1);
   const deltaP = +(611.65 - localPressurePa).toFixed(1);
@@ -321,6 +504,10 @@ export function computeTelemetry(hourMtc, payloadKg, dustDevilActive, speAlertAc
     ? 4.85
     : +(0.23 + diurnalFactor * 0.14).toFixed(2);
 
+  const dustOpticalDepth = dustDevilActive
+    ? 2.85
+    : +(0.42 + diurnalFactor * 0.35).toFixed(2);
+
   const elapsedHours = hourMtc - 6;
   const metabolicLoad = 1 + payloadKg * 0.015;
   const o2Pct = Math.max(12, Math.round(100 - elapsedHours * 4.2 * metabolicLoad));
@@ -332,6 +519,8 @@ export function computeTelemetry(hourMtc, payloadKg, dustDevilActive, speAlertAc
   return {
     tempK,
     windSpeed,
+    windHeading,
+    dustOpticalDepth,
     localPressurePa,
     deltaP,
     sublimatorStatus,
