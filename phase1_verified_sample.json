@@ -1,0 +1,94 @@
+{
+  "execution_status": "PHASE1_REGIONAL_VIEWER_VERIFIED_WITH_LIMITATIONS",
+  "checked_utc": "2026-11-14T09:15:00Z",
+  "data_policy": "NASA mission imagery and metadata only. Missing observations remain unavailable; no modeled or substitute values are generated.",
+  "scope": "Regional imagery and provenance viewer only; not a terrain, route, hazard, or safety product.",
+  "project_aoi": {
+    "definition": "Project-defined coordinate rectangle; not a measured terrain boundary.",
+    "center": {
+      "latitude_planetographic_deg": -4.843,
+      "longitude_east_deg": 137.298
+    },
+    "bounds": {
+      "latitude_min_deg": -4.9,
+      "latitude_max_deg": -4.78,
+      "longitude_min_deg": 137.24,
+      "longitude_max_deg": 137.36
+    },
+    "approx_dimensions_km": {
+      "north_south": 7.1,
+      "east_west": 7.07
+    },
+    "approx_area_km2": 50.2
+  },
+  "displayed_ctx": {
+    "instrument": "NASA MRO Context Camera (CTX)",
+    "provider_note": "Caltech/Bruce Murray Laboratory OnMars MapServer resource referenced by NASA Mars Trek WMTS",
+    "service_spatial_reference_wkid": 104971,
+    "zoom": 12,
+    "tiles_fetched_and_decoded": 30,
+    "tile_dimensions_px": [
+      512,
+      512
+    ],
+    "display_file": "gale_ctx_extended_z12.png",
+    "display_dimensions_px": [
+      2330,
+      2097
+    ],
+    "display_bounds": {
+      "longitude_min_deg": 137.22,
+      "longitude_max_deg": 137.42,
+      "latitude_min_deg": -4.93,
+      "latitude_max_deg": -4.75
+    },
+    "tile_matrix_pixel_spacing_at_gale_m_per_px": 5.078,
+    "image_type": "Grayscale imagery; not a numeric DEM",
+    "registration_caveat": "Tile crop uses service matrix, but cross-source coordinate overlay is withheld until the CRS discrepancy is resolved and registration validated.",
+    "retrieval_manifest": "ctx_tile_manifest.json",
+    "service_crs_audit": {
+      "nasa_mars_trek_wmts": "ESRI:104905 (Mars 2000 ellipsoid)",
+      "linked_arcgis_rest_mapserver": "WKID 104971 (Mars 2000 sphere)",
+      "status": "unresolved; no external coordinate overlays drawn"
+    }
+  },
+  "mola_context": {
+    "instrument": "NASA MGS MOLA",
+    "file": "gale_mola_tile_level5.jpg",
+    "dimensions_px": [
+      256,
+      256
+    ],
+    "format": "JPEG",
+    "type": "Rendered shaded relief; not numeric elevation samples",
+    "use": "Separate reference thumbnail only; not aligned as an overlay; no elevation, contour, or slope derived."
+  },
+  "hirise": {
+    "observation": "PSP_001752_1750",
+    "source_page": "https://www.uahirise.org/PSP_001752_1750",
+    "metadata_only": true,
+    "image_downloaded": false,
+    "georeferenced_footprint_loaded": false,
+    "coverage_asserted_in_viewer": false
+  },
+  "curiosity_waypoint": {
+    "source": "https://mars.nasa.gov/mmgis-maps/MSL/Layers/json/MSL_waypoints.json",
+    "sol": 4452,
+    "latitude_planetographic_deg": -4.7872261,
+    "longitude_east_deg": 137.3926205,
+    "use": "NASA coordinate reference only; not plotted on raster pending CRS reconciliation."
+  },
+  "mastcam_panorama": {
+    "catalog_id": "PIA26559",
+    "image_downloaded": false,
+    "georeferenced_in_viewer": false
+  },
+  "unavailable_or_omitted": {
+    "numeric_dem": "Unavailable in this baseline",
+    "walking_scale_slopes": "Unavailable",
+    "traverse_routes_or_hazard_scores": "Omitted",
+    "local_pressure": "Unavailable",
+    "radiation_dose_rate": "Unavailable",
+    "life_support_reserves": "Unavailable"
+  }
+}

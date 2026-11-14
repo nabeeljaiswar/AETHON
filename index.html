@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+<<<<<<< HEAD
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,3 +21,2243 @@
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+=======
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0f14">
+<title>AETHON — Gediz Vallis Boxwork Science Traverse Planner & Radiation Shielding System (Prototype)</title>
+<style>
+:root{
+  --bg:#070b10;
+  --surface:#0e151f;
+  --surface2:#15202e;
+  --surface3:#1c2c3f;
+  --line:#22364c;
+  --text:#dbe8f5;
+  --muted:#7c96af;
+  --accent:#00e5ff;
+  --accent2:#00b4d8;
+  --green:#00e676;
+  --amber:#ffab00;
+  --alert:#ff5252;
+  --purple:#bb86fc;
+  --gold:#ffd54f;
+  --font:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;display:flex;flex-direction:column}
+button,input,select{font:inherit;color:inherit}
+
+header{
+  padding:12px clamp(16px,2vw,28px);
+  background:rgba(14,21,31,0.98);
+  border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;z-index:50;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{
+  width:36px;height:36px;border-radius:8px;
+  background:linear-gradient(135deg,#00e5ff,#006699);
+  display:grid;place-items:center;color:#000;font-weight:900;font-size:18px;
+}
+.brand-name{font-size:14px;font-weight:800;letter-spacing:0.8px;color:#fff}
+.brand-sub{font-size:10px;color:var(--muted);letter-spacing:0.6px;margin-top:2px}
+
+.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn-hdr{
+  background:var(--surface2);border:1px solid var(--line);color:var(--text);
+  padding:6px 12px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:6px;transition:all .15s;
+}
+.btn-hdr:hover{border-color:var(--accent);color:#fff}
+.badge-proto{
+  font-size:10px;background:rgba(255,171,0,0.12);color:var(--amber);border:1px solid rgba(255,171,0,0.3);
+  padding:5px 9px;border-radius:6px;font-weight:700;
+}
+
+.disclaimer-banner{
+  background:#0c141d;border-bottom:1px solid var(--line);padding:8px clamp(16px,2vw,28px);
+  font-size:10.5px;color:var(--muted);line-height:1.45;display:flex;justify-content:space-between;align-items:center;gap:14px;
+}
+.disclaimer-banner strong{color:#cce4f7}
+.notice-pill{background:#1a2838;color:var(--accent);padding:2px 8px;border-radius:4px;font-size:9.5px;font-weight:800;white-space:nowrap}
+
+main{
+  flex:1;display:grid;grid-template-columns:1fr 450px;gap:16px;
+  padding:14px clamp(16px,2vw,28px);max-width:1920px;margin:0 auto;width:100%;
+}
+
+/* Stage Card */
+.stage-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 32px rgba(0,0,0,0.4);
+}
+.stage-toolbar{
+  padding:9px 12px;background:var(--surface2);border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;
+}
+.layer-btns{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.btn-layer{
+  background:transparent;border:1px solid var(--line);color:var(--muted);
+  padding:4.5px 8.5px;border-radius:5px;font-size:10px;font-weight:600;cursor:pointer;transition:all .15s;
+}
+.btn-layer:hover{color:#fff;border-color:#3a5472}
+.btn-layer.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:800}
+
+.blend-box{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--muted)}
+.blend-slider{width:75px;accent-color:var(--accent);cursor:pointer}
+
+.stage-viewport{
+  position:relative;flex:1;min-height:560px;background:#03060a;
+  overflow:hidden;display:flex;align-items:center;justify-content:center;
+}
+#mapCanvas{display:block;max-width:100%;max-height:100%;cursor:crosshair;box-shadow:0 0 24px rgba(0,0,0,0.8)}
+
+.cursor-telemetry{
+  position:absolute;bottom:10px;left:12px;background:rgba(8,15,22,0.92);
+  border:1px solid var(--line);border-radius:6px;padding:7px 11px;font-size:10px;
+  color:#c0d5e6;backdrop-filter:blur(6px);display:flex;gap:12px;z-index:20;flex-wrap:wrap;
+}
+
+.legend-box{
+  position:absolute;top:10px;right:12px;background:rgba(8,15,22,0.92);
+  border:1px solid var(--line);border-radius:6px;padding:8px 11px;font-size:9.5px;
+  backdrop-filter:blur(6px);z-index:20;display:flex;flex-direction:column;gap:4px;
+}
+.legend-row{display:flex;align-items:center;gap:6px}
+.legend-chip{width:11px;height:11px;border-radius:2px}
+
+/* Profile Card */
+.profile-card{
+  background:var(--surface2);border-top:1px solid var(--line);padding:9px 12px;
+  display:flex;flex-direction:column;gap:5px;
+}
+.profile-header{display:flex;justify-content:space-between;align-items:center;font-size:10.5px}
+.profile-title{font-weight:800;color:var(--accent);letter-spacing:0.8px}
+.profile-meta{font-size:9.5px;color:var(--muted)}
+#elevationProfileCanvas{width:100%;height:95px;display:block;background:#090f16;border-radius:4px;border:1px solid var(--line)}
+
+.stage-footer{
+  padding:7px 12px;background:#090e15;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--muted);flex-wrap:wrap;gap:8px;
+}
+.scale-metric{display:flex;align-items:center;gap:7px;color:#fff;font-weight:700}
+.scale-bar-line{width:98px;height:4px;background:#fff;position:relative}
+.scale-bar-line:before,.scale-bar-line:after{content:"";position:absolute;width:2px;height:8px;background:#fff;top:-2px}
+.scale-bar-line:before{left:0}.scale-bar-line:after{right:0}
+
+/* Sidebar Panels */
+.sidebar{display:flex;flex-direction:column;gap:12px;overflow-y:auto;max-height:calc(100vh - 120px)}
+.panel{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:12px;display:flex;flex-direction:column;gap:9px;box-shadow:0 6px 20px rgba(0,0,0,0.25);
+}
+.p-title{
+  font-size:10.5px;font-weight:800;color:var(--accent);letter-spacing:0.8px;
+  display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:5px;
+}
+.badge-tag{font-size:8.5px;padding:2px 6px;border-radius:3px;font-weight:800}
+.tag-observed{background:rgba(0,230,118,0.18);color:var(--green)}
+.tag-derived{background:rgba(0,229,255,0.18);color:var(--accent)}
+.tag-modelled{background:rgba(255,171,0,0.18);color:var(--amber)}
+.tag-scenario{background:rgba(187,134,252,0.2);color:#bb86fc}
+.tag-unavailable{background:rgba(255,82,82,0.18);color:var(--alert)}
+
+.selector-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sel-group{display:flex;flex-direction:column;gap:3px}
+.sel-lbl{font-size:9px;color:var(--muted);font-weight:700;letter-spacing:0.5px}
+.sel-box{
+  background:var(--surface2);border:1px solid var(--line);border-radius:5px;
+  padding:5px 7px;font-size:9.5px;color:#fff;outline:none;cursor:pointer;
+}
+
+.btn-action{
+  background:linear-gradient(135deg,#00e5ff,#0088cc);color:#000;border:none;
+  border-radius:6px;padding:8px;font-size:10.5px;font-weight:900;letter-spacing:0.8px;
+  cursor:pointer;box-shadow:0 0 16px rgba(0,229,255,0.3);transition:all .2s;text-align:center;
+}
+.btn-action:hover{transform:translateY(-1px);box-shadow:0 0 22px rgba(0,229,255,0.45)}
+
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.stat-card{background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+.sc-lbl{font-size:8px;color:var(--muted);letter-spacing:0.5px}
+.sc-val{font-size:12.5px;font-weight:800;color:#fff;margin-top:2px}
+
+.assumptions-box{
+  background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.22);
+  border-radius:6px;padding:7px 9px;font-size:9px;color:#a8c4db;line-height:1.4;
+}
+
+/* Visibility Predictor Controls */
+.slider-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.slider-cell{display:flex;flex-direction:column;gap:2px}
+.slider-row{display:flex;justify-content:space-between;font-size:9px;color:var(--muted)}
+.slider-row span{color:#fff;font-weight:700}
+.slider-input{width:100%;accent-color:var(--accent);cursor:pointer}
+
+#skylineCanvas{width:100%;height:80px;display:block;background:#080e15;border-radius:4px;border:1px solid var(--line)}
+#solarArcCanvas{width:100%;height:75px;display:block;background:#080e15;border-radius:4px;border:1px solid var(--line)}
+#radiationRadarCanvas{width:100%;height:110px;display:block;background:#080e15;border-radius:4px;border:1px solid var(--line)}
+
+.vis-card{
+  background:var(--surface2);border:1px solid var(--line);border-radius:6px;
+  padding:7px 9px;display:flex;flex-direction:column;gap:4px;font-size:9.5px;
+}
+.vis-status-row{display:flex;justify-content:space-between;align-items:center}
+.vis-badge{
+  font-size:8.5px;font-weight:800;padding:2.5px 6px;border-radius:4px;
+}
+.vis-ok{background:rgba(0,230,118,0.2);color:var(--green);border:1px solid rgba(0,230,118,0.4)}
+.vis-blocked{background:rgba(255,82,82,0.2);color:var(--alert);border:1px solid rgba(255,82,82,0.4)}
+.vis-uncertain{background:rgba(255,171,0,0.2);color:var(--amber);border:1px solid rgba(255,171,0,0.4)}
+
+/* Modal Styles */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(3,6,10,0.85);backdrop-filter:blur(8px);
+  z-index:100;display:none;align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.active{display:flex}
+.modal-box{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  max-width:980px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.6);
+  display:flex;flex-direction:column;
+}
+.modal-hdr{
+  padding:14px 18px;background:var(--surface2);border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;
+}
+.modal-title{font-size:13px;font-weight:800;color:var(--accent);letter-spacing:0.8px}
+.modal-close{
+  background:transparent;border:1px solid var(--line);color:var(--muted);width:26px;height:26px;
+  border-radius:5px;display:grid;place-items:center;cursor:pointer;font-weight:700;
+}
+.modal-close:hover{border-color:var(--alert);color:var(--alert)}
+.modal-body{padding:18px;display:flex;flex-direction:column;gap:14px}
+
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.gallery-card{
+  background:var(--surface2);border:1px solid var(--line);border-radius:8px;
+  overflow:hidden;display:flex;flex-direction:column;gap:8px;padding-bottom:10px;
+}
+.gallery-thumb{
+  width:100%;height:140px;background:#050a10;display:grid;place-items:center;
+  border-bottom:1px solid var(--line);overflow:hidden;position:relative;
+}
+.gallery-thumb svg{max-width:100%;max-height:100%}
+.gallery-info{padding:0 12px;display:flex;flex-direction:column;gap:4px;font-size:10px}
+.gallery-title{font-size:11px;font-weight:800;color:#fff}
+.gallery-meta{color:var(--muted);display:flex;flex-wrap:wrap;gap:8px}
+.gallery-link{color:var(--accent);text-decoration:none;font-weight:700;margin-top:4px;display:inline-block}
+.gallery-link:hover{text-decoration:underline}
+.btn-locate{
+  background:rgba(0,229,255,0.12);border:1px solid var(--accent);color:var(--accent);
+  padding:4px 8px;border-radius:4px;font-size:9.5px;font-weight:700;cursor:pointer;
+  margin-top:6px;display:inline-flex;align-items:center;gap:4px;width:fit-content;
+}
+.btn-locate:hover{background:var(--accent);color:#050a10}
+
+@media(max-width:1180px){main{grid-template-columns:1fr}.sidebar{max-height:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="mark">A</div>
+    <div>
+      <div class="brand-name">AETHON // GEDIZ VALLIS BOXWORK SCIENCE TRAVERSE &amp; RADIATION PLANNER</div>
+      <div class="brand-sub">MOUNT SHARP · GALE CRATER (-4.787°S, 137.393°E) · NASA SPACE APPS 2026</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn-hdr" id="btnOpenGallery">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      NASA Mars Image Gallery
+    </button>
+    <button class="btn-hdr" id="btnOpenProvenance">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Data Provenance
+    </button>
+    <span class="badge-proto">RESEARCH PROTOTYPE</span>
+  </div>
+</header>
+
+<div class="disclaimer-banner">
+  <div>
+    <strong>AETHON Science Exploration Prototype:</strong> Candidate traverses, viewshed, solar illumination, and terrain radiation shielding computed on registered NASA HiRISE 1.01m stereo models. Optical shadow blocks direct sunlight; it is NOT an omnidirectional cosmic radiation shield.
+  </div>
+  <span class="notice-pill">NOT FLIGHT-CERTIFIED EVA SOFTWARE</span>
+</div>
+
+<main>
+  <!-- Tactical Map Stage -->
+  <section class="stage-card">
+    <div class="stage-toolbar">
+      <div class="layer-btns">
+        <button class="btn-layer active" data-layer="slope">HiRISE Slope Grid</button>
+        <button class="btn-layer" data-layer="hillshade">Shaded Relief</button>
+        <button class="btn-layer" data-layer="color">Hypsometric</button>
+        <button class="btn-layer" data-layer="ctx">CTX Mosaic</button>
+        <button class="btn-layer active" data-layer="targets">Science Targets</button>
+        <button class="btn-layer active" data-layer="curiosity">Curiosity Path (99)</button>
+        <button class="btn-layer active" data-layer="los">LOS Ray</button>
+        <button class="btn-layer active" data-layer="solar">Solar Ray</button>
+        <button class="btn-layer active" data-layer="route">Candidate Traverse</button>
+      </div>
+      <div class="blend-box">
+        <span>BLEND</span>
+        <input type="range" class="blend-slider" id="blendSlider" min="0" max="100" value="85">
+      </div>
+    </div>
+
+    <div class="stage-viewport">
+      <canvas id="mapCanvas" width="1500" height="1500"></canvas>
+
+      <div class="cursor-telemetry" id="cursorHUD">
+        <span><b>LAT:</b> -4.7885°S</span>
+        <span><b>LON:</b> 137.3912°E</span>
+        <span><b>ELEV:</b> -3,708.5 m</span>
+        <span><b>SLOPE:</b> 6.2° (10.9% grade)</span>
+        <span><b>CELL:</b> [1.01m HiRISE DTM]</span>
+      </div>
+
+      <div class="legend-box" id="legendBox">
+        <div style="font-weight:800;color:var(--muted);margin-bottom:2px">SLOPE CLASSIFICATION</div>
+        <div class="legend-row"><div class="legend-chip" style="background:#2ecc71"></div><span>&lt; 10° Gentle Traverse</span></div>
+        <div class="legend-row"><div class="legend-chip" style="background:#f1c40f"></div><span>10°–15° Moderate Grade</span></div>
+        <div class="legend-row"><div class="legend-chip" style="background:#e67e22"></div><span>15°–20° Steep Approach</span></div>
+        <div class="legend-row"><div class="legend-chip" style="background:#e74c3c"></div><span>&ge; 20° Impassable Scarp</span></div>
+      </div>
+    </div>
+
+    <!-- Elevation Cross Section Profile -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-title">TRAVERSE ELEVATION CROSS-SECTION PROFILE [DERIVED]</div>
+        <div class="profile-meta" id="profileMeta">Candidate Traverse: 688.7 m · Net Climb +44.7 m · Max Slope 19.0°</div>
+      </div>
+      <canvas id="elevationProfileCanvas"></canvas>
+    </div>
+
+    <div class="stage-footer">
+      <div class="scale-metric">
+        <div class="scale-bar-line"></div>
+        <span>100 METERS</span>
+      </div>
+      <span>NASA PDS HiRISE DTM PSP_009149_1750 · 1.0116 m/px · Equirectangular (IAU Mars Sphere)</span>
+    </div>
+  </section>
+
+  <!-- Sidebar Panels -->
+  <aside class="sidebar">
+
+    <!-- Panel 1: Scenario Start & Target Selection -->
+    <section class="panel">
+      <div class="p-title">
+        <span>1. SCENARIO ENDPOINTS &amp; ROUTING</span>
+        <span class="badge-tag tag-scenario">SCENARIO INPUT</span>
+      </div>
+
+      <div class="selector-grid">
+        <div class="sel-group">
+          <label class="sel-lbl">SCENARIO START PIN</label>
+          <select class="sel-box" id="startSelector">
+            <option value="MSL-OBS-01">MSL-OBS-01: Sol 4452 Margin</option>
+            <option value="MSL-OBS-02">MSL-OBS-02: Channel Debris</option>
+            <option value="MSL-OBS-03">MSL-OBS-03: Ridge Flank</option>
+            <option value="CUSTOM">[CLICK MAP: Custom Scenario Pin]</option>
+          </select>
+        </div>
+        <div class="sel-group">
+          <label class="sel-lbl">SCIENCE DESTINATION</label>
+          <select class="sel-box" id="destSelector">
+            <option value="HIRISE-GEO-04">HIRISE-GEO-04: Boxwork T-Junction</option>
+            <option value="HIRISE-GEO-01">HIRISE-GEO-01: Ridge Crest Outcrop</option>
+            <option value="HIRISE-GEO-02">HIRISE-GEO-02: Vein Intersection</option>
+            <option value="HIRISE-GEO-03">HIRISE-GEO-03: Vein Swarm</option>
+            <option value="CUSTOM">[CLICK MAP: Custom Target Pin]</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="sel-group" style="margin-top:2px">
+        <label class="sel-lbl">CANDIDATE ROUTE TRADE-OFF</label>
+        <select class="sel-box" id="routeTradeoffSelector">
+          <option value="ROUTE-A">Route A: Boxwork Spine (Default · 688.7m, +44.7m, max 19.0°)</option>
+          <option value="ROUTE-B">Route B: Low-Grade Margin Corridor (782.4m, +38.2m, max 14.1°)</option>
+          <option value="ROUTE-C">Route C: Ridge Crest Traverse (714.2m, +58.6m, max 18.5°)</option>
+        </select>
+      </div>
+
+      <div class="slider-cell" style="margin-top:2px">
+        <div class="slider-row">
+          <label style="font-size:9px">MAX SLOPE CUTOFF (SCENARIO INPUT):</label>
+          <span id="lblMaxSlopeCutoff" style="color:var(--amber);font-weight:700">20.0°</span>
+        </div>
+        <input type="range" class="slider-input" id="sliderMaxSlopeCutoff" min="12" max="25" step="1" value="20">
+      </div>
+
+      <button class="btn-action" id="btnCalculateRoute">CALCULATE CANDIDATE TRAVERSE (A*)</button>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="sc-lbl">TRAVERSE DISTANCE</div>
+          <div class="sc-val" id="valDistance">688.7 m</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-lbl">ELEVATION GAIN</div>
+          <div class="sc-val" id="valElevGain" style="color:var(--green)">+44.7 m</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-lbl">MAX SAMPLED SLOPE</div>
+          <div class="sc-val" id="valMaxSlope" style="color:var(--amber)">19.0°</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-lbl">MEAN TRAVERSE SLOPE</div>
+          <div class="sc-val" id="valMeanSlope">6.3°</div>
+        </div>
+      </div>
+
+      <div class="assumptions-box">
+        <b>Scenario Assumption (Not a Mobility Guarantee):</b> A* graph search on 1.01m raster: <code>J(P) = Σ d_i [1 + 1.0 × (θ_i / 10.0°)^2]</code>. Slopes &gt; cutoff and nodata are impassable. Does not model spacesuit joint fatigue or loose regolith slip mechanics. Curiosity telemetry is rover-specific (6-wheel rocker-bogie).
+      </div>
+    </section>
+
+    <!-- Panel 2: Horizon and Camera Visibility Prediction -->
+    <section class="panel">
+      <div class="p-title">
+        <span>2. CAMERA VISIBILITY &amp; HORIZON</span>
+        <span class="badge-tag tag-modelled">MODELLED PREDICTION</span>
+      </div>
+
+      <div class="slider-grid">
+        <div class="slider-cell">
+          <div class="slider-row">
+            <label>CAM HEIGHT (h):</label>
+            <span id="lblCamHeight">2.0 m</span>
+          </div>
+          <input type="range" class="slider-input" id="sliderCamHeight" min="0.5" max="5.0" step="0.1" value="2.0">
+        </div>
+        <div class="slider-cell">
+          <div class="slider-row">
+            <label>AZIMUTH (φ):</label>
+            <span id="lblAzimuth">225° (SW)</span>
+          </div>
+          <input type="range" class="slider-input" id="sliderAzimuth" min="0" max="360" step="1" value="225">
+        </div>
+        <div class="slider-cell">
+          <div class="slider-row">
+            <label>CAMERA FOV:</label>
+            <span id="lblFOV">60°</span>
+          </div>
+          <input type="range" class="slider-input" id="sliderFOV" min="30" max="120" step="5" value="60">
+        </div>
+        <div class="slider-cell">
+          <div class="slider-row">
+            <label>TARGET HEIGHT:</label>
+            <span id="lblTgtHeight">0.0 m</span>
+          </div>
+          <input type="range" class="slider-input" id="sliderTgtHeight" min="0.0" max="3.0" step="0.5" value="0.0">
+        </div>
+      </div>
+
+      <div class="vis-card" id="visCard">
+        <div class="vis-status-row">
+          <span style="font-weight:700">TARGET LINE-OF-SIGHT:</span>
+          <span class="vis-badge vis-ok" id="visBadge">VISIBLE IN TERRAIN MODEL</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;color:var(--muted);font-size:9px">
+          <div>Ground Dist: <b id="visGroundDist" style="color:#fff">584 m</b></div>
+          <div>3D LOS Dist: <b id="vis3DDist" style="color:#fff">585 m</b></div>
+          <div>Elev Angle: <b id="visElevAngle" style="color:#fff">+4.3°</b></div>
+          <div>Curvature Drop: <b id="visCurvDrop" style="color:#fff">0.05 m</b></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;color:var(--muted);font-size:8.5px;margin-top:3px;border-top:1px dashed var(--line);padding-top:3px">
+          <div>Min Clearance: <b id="visMinClearance" style="color:#fff">+1.85 m</b></div>
+          <div>DTM Precision (σ_z): <b id="visDTMPrecision" style="color:var(--accent)">±0.25 m</b></div>
+          <div>Terrain Layer: <b id="visTerrainSource" style="color:#fff">HiRISE 1.01m DTM</b></div>
+          <div>Horizon Model: <b style="color:var(--green)">Nested (1m + Regional)</b></div>
+        </div>
+        <div id="visObstacleNote" style="font-size:8.5px;color:var(--amber);display:none;margin-top:2px"></div>
+      </div>
+
+      <div style="font-size:9px;font-weight:700;color:var(--muted);margin-top:2px">
+        ANGULAR SKYLINE HORIZON PROFILE ACROSS FOV [MODELLED]
+      </div>
+      <canvas id="skylineCanvas"></canvas>
+
+      <div style="font-size:8.5px;color:var(--muted);line-height:1.4">
+        <b>Prediction Scope:</b> Geometric line-of-sight clearance with Mars curvature drop (R_M = 3,389.5 km) and stereo DTM photogrammetric vertical uncertainty (σ_z = ±0.25m). Grazing rays within ±0.25m are flagged <code>UNCERTAIN AT DTM RESOLUTION</code>.
+      </div>
+    </section>
+
+    <!-- Panel 3: Solar Path & Cliff-Shade Explorer -->
+    <section class="panel">
+      <div class="p-title">
+        <span>3. SOLAR ILLUMINATION &amp; CLIFF SHADE</span>
+        <span class="badge-tag tag-modelled">MARS24 EPHEMERIS</span>
+      </div>
+
+      <div class="slider-cell">
+        <div class="slider-row">
+          <label>LOCAL TRUE SOLAR TIME (LTST):</label>
+          <span id="lblSolarTime" style="color:var(--gold);font-weight:700">12:45 LST</span>
+        </div>
+        <input type="range" class="slider-input" id="sliderSolarTime" min="6.0" max="18.0" step="0.25" value="12.75">
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="sc-lbl">SUN ELEVATION</div>
+          <div class="sc-val" id="valSunElev" style="color:var(--gold)">+58.2°</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-lbl">SUN AZIMUTH</div>
+          <div class="sc-val" id="valSunAz">340.4° (NNW)</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-lbl">SOLAR LONGITUDE (Ls)</div>
+          <div class="sc-val" id="valSunLs">84.3° (N. Summer)</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-lbl">SUBSOLAR DECLINATION</div>
+          <div class="sc-val" id="valSunDecl">+25.1°</div>
+        </div>
+      </div>
+
+      <button class="btn-action" id="btnTraceSolarRay" style="background:linear-gradient(135deg,#ffd54f,#ff8f00);color:#000">
+        TRACE DIRECT SUN VECTOR &amp; CLIFF SHADOW
+      </button>
+
+      <div class="vis-card" id="solarCard">
+        <div class="vis-status-row">
+          <span style="font-weight:700">STATION ILLUMINATION:</span>
+          <span class="vis-badge vis-ok" id="solarBadge">DIRECT SUNLIGHT</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;color:var(--muted);font-size:9px">
+          <div>Min Ray Clearance: <b id="solarMinClearance" style="color:#fff">+14.2 m</b></div>
+          <div>Shadow Obstacle: <b id="solarObstacle" style="color:var(--green)">None (Unobstructed)</b></div>
+        </div>
+        <div id="solarNote" style="font-size:8.5px;color:var(--muted);margin-top:2px">
+          Direct solar vector clears all intervening terrain scarps toward azimuth 340.4°.
+        </div>
+      </div>
+
+      <div style="font-size:9px;font-weight:700;color:var(--muted);margin-top:2px">
+        DIURNAL SOLAR ELEVATION ARC (SOL 4452) [MARS24 MODELLED]
+      </div>
+      <canvas id="solarArcCanvas"></canvas>
+
+      <div class="assumptions-box" style="border-color:rgba(255,213,79,0.3);background:rgba(255,213,79,0.05)">
+        <b style="color:var(--gold)">Fundamental Scientific Distinction:</b> A cliff shadow blocks direct solar photons (providing illumination, thermal, and UV context). <b>A solar shadow does NOT provide omnidirectional cosmic radiation (GCR) shielding.</b> Direct sunlight shade and GCR dose are strictly decoupled.
+      </div>
+    </section>
+
+    <!-- Panel 4: Terrain Radiation-Shelter Explorer -->
+    <section class="panel">
+      <div class="p-title">
+        <span>4. TERRAIN RADIATION-SHELTER EXPLORER</span>
+        <span class="badge-tag tag-modelled">TIER 1 &amp; 2 DUAL PRODUCT</span>
+      </div>
+
+      <div class="sel-group">
+        <label class="sel-lbl">SHELTER LOCATION CANDIDATE</label>
+        <select class="sel-box" id="shelterCandidateSelector">
+          <option value="CURRENT">Current Station (Scenario Start Pin)</option>
+          <option value="ALCOVE">Boxwork Ridge Base Alcove [75, 65] (High Cliff Mass)</option>
+          <option value="CREST">Ridge Crest Outcrop [71, 71] (Panoramic Skyline)</option>
+          <option value="PLAIN">Open Channel Floor [60, 80] (Low Terrain Mass)</option>
+        </select>
+      </div>
+
+      <button class="btn-action" id="btnComputeRadiationShelter" style="background:linear-gradient(135deg,#ba68c8,#7b1fa2);color:#fff">
+        ANALYZE 360° TERRAIN RADIATION SHELTER
+      </button>
+
+      <!-- Tier 1 Geometry -->
+      <div style="background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:5px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <b style="color:var(--purple);font-size:10px">TIER 1: FULL-AZIMUTH SHELTER GEOMETRY</b>
+          <span class="badge-tag tag-modelled">GEOMETRY ONLY</span>
+        </div>
+
+        <div style="background:rgba(255,171,0,0.12);border:1px solid rgba(255,171,0,0.3);color:var(--amber);padding:3px 6px;border-radius:4px;font-size:8.5px;font-weight:800;text-align:center">
+          GEOMETRY ONLY; NOT A DOSE ESTIMATE
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="sc-lbl">BLOCKED SKY FRACTION</div>
+            <div class="sc-val" id="radBlockedPct" style="color:var(--purple)">18.2%</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-lbl">BLOCKED SOLID ANGLE</div>
+            <div class="sc-val" id="radBlockedSr">1.14 sr</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-lbl">SKY VIEW FACTOR (SVF)</div>
+            <div class="sc-val" id="radSVF">0.818</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-lbl">GEOMETRIC CATEGORY</div>
+            <div class="sc-val" id="radCategory" style="font-size:10px;color:#fff">HIGH OBSTRUCTION</div>
+          </div>
+        </div>
+
+        <div style="font-size:8.5px;font-weight:700;color:var(--muted);margin-top:2px">
+          360° HORIZON OBSTRUCTION PROFILE (RADAR CHART)
+        </div>
+        <canvas id="radiationRadarCanvas"></canvas>
+      </div>
+
+      <!-- Tier 2 Transport Benchmark -->
+      <div style="background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:5px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <b style="color:var(--accent);font-size:10px">TIER 2: RESEARCH TRANSPORT BENCHMARK PROTOTYPE</b>
+          <span class="badge-tag tag-derived">SEPARATE RESEARCH PROTOTYPE</span>
+        </div>
+
+        <div style="font-size:8.5px;color:var(--muted);line-height:1.4">
+          <b>Separate Research Prototype Status:</b> Radiation transport is treated strictly as a separate later research prototype exposing terrain, atmosphere, surface-material, particle-spectrum, and calibration assumptions validated against RAD before presenting dose estimates; otherwise reporting historical RAD observations with dates and context.<br>
+          <b>Empirical Benchmark:</b> MSL Curiosity RAD at Murray Buttes Butte M12 (Sols 1456–1467) recorded a <b>4.0% ± 1.2% dose reduction</b> and 7.5% neutral reduction under 19% sky obstruction (Ehresmann et al. 2021).<br>
+          <b>Zenith Transport Physics:</b> Mars atmosphere creates strongly zenith-peaked downward GCR flux (Khaksari et al. 2022). High-energy rock collisions generate secondary albedo neutrons (η ≈ 0.80), buffering net shielding.
+        </div>
+
+        <div class="stats-grid" style="margin-top:2px">
+          <div class="stat-card">
+            <div class="sc-lbl">GALE UNBLOCKED BASELINE</div>
+            <div class="sc-val" style="font-size:11px">0.64 ± 0.12 mSv/d</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-lbl">ESTIMATED SHIELDED DOSE</div>
+            <div class="sc-val" id="radShieldedDose" style="font-size:11px;color:var(--green)">0.614 mSv/d (-4.1%)</div>
+          </div>
+        </div>
+
+        <div style="font-size:8px;color:var(--muted);line-height:1.35;border-top:1px dashed var(--line);padding-top:3px">
+          <b>Operational Scope:</b> Research planning information only. Candidate terrain may reduce some radiation components; modeled/observed dose benefit depends on particle field and material transport. Never label a terrain shelter or route "safe."
+        </div>
+      </div>
+    </section>
+
+    <!-- Panel 5: Science Evidence & Mission Context -->
+    <section class="panel">
+      <div class="p-title">
+        <span>5. FIRST-CLASS SCIENCE EVIDENCE LAYERS</span>
+        <span class="badge-tag tag-observed">VERIFIED MISSION RECORDS</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:9.5px">
+        <!-- REMS -->
+        <div style="background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:7px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+            <b style="color:var(--accent)">REMS In-Situ Atmospheric Readings</b>
+            <span class="badge-tag tag-observed">OBSERVED</span>
+          </div>
+          <div style="color:var(--muted);line-height:1.35">
+            <b>Sol 4452 (12:45 LST):</b> P = 815 Pa, T_ground = -68°C to +2°C, T_air = -14°C (280m offset).<br>
+            <b>Sol 4460 (13:10 LST):</b> P = 820 Pa, T_ground = -69°C to +3°C, T_air = -12°C (150m offset).<br>
+            <i style="font-size:8px">NASA PDS MSL-M-REMS-4-DDR-V1.0. Dated point readings at rover position; not a local microclimate forecast.</i>
+          </div>
+        </div>
+
+        <!-- RAD -->
+        <div style="background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:7px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+            <b style="color:var(--accent)">Curiosity RAD Gale Baseline &amp; Natural Shielding</b>
+            <span class="badge-tag tag-observed">HISTORICAL OBSERVED</span>
+          </div>
+          <div style="color:var(--muted);line-height:1.35">
+            <b>Historical GCR Baseline:</b> 0.64 ± 0.12 mSv/day (210 μGy/day) (Hassler et al. 2014, Zeitlin et al. 2019).<br>
+            <b>Murray Buttes Butte M12 Shielding:</b> Sols 1456–1467, ~19% sky blocked yielded 4.0% ± 1.2% dose reduction and 7.5% neutral-particle reduction (Ehresmann et al. 2021).<br>
+            <i style="font-size:8px">PDS MSL-M-RAD-3-RDR-V1.0. Historical observations reported with dates and context.</i>
+          </div>
+        </div>
+
+        <!-- CRISM -->
+        <div style="background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:7px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+            <b style="color:var(--amber)">CRISM Lower Mount Sharp Sulfates</b>
+            <span class="badge-tag tag-observed">OBSERVED ORBITAL</span>
+          </div>
+          <div style="color:var(--muted);line-height:1.35">
+            Targeted scenes <b>FRT0000B6F1</b> (18 m/px) &amp; <b>HRL0000BABA</b> (36 m/px) confirm polyhydrated &amp; monohydrated magnesium sulfates (1.9μm, 2.1μm, 2.4μm bands; Fraeman et al. 2016).<br>
+            <i style="font-size:8px">Regional stratigraphic context; orbital spectrometers cannot resolve sub-meter fracture veins.</i>
+          </div>
+        </div>
+
+        <!-- Hydrogen & Water -->
+        <div style="background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:7px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+            <b style="color:var(--green)">Subsurface Hydrogen &amp; Water Assessment</b>
+            <span class="badge-tag tag-derived">DERIVED ASSESSMENT</span>
+          </div>
+          <div style="color:var(--muted);line-height:1.35">
+            <b>DAN Active Neutron:</b> 1.5–3.0 wt% Water-Equivalent Hydrogen (WEH) along ~40m rover traverse swath (&lt;1m depth; Mitrofanov et al. 2014).<br>
+            <b>Odyssey GRS/HEND:</b> &lt;2–4 wt% regional WEH (~300 km scale footprint; Boynton et al. 2007).<br>
+            <b>Accessible Water:</b> NONE. Chemically bound in crystal lattices; ground ice is unstable at Gale (-4.8°S).
+          </div>
+        </div>
+
+        <!-- Electrostatics: Chide et al. 2025 Nature vs Gale Local -->
+        <div style="background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:7px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+            <b style="color:var(--alert)">Triboelectric Discharges (Chide et al. 2025 Nature)</b>
+            <span class="badge-tag tag-unavailable">JEZERO OBSERVED / GALE UNMEASURED</span>
+          </div>
+          <div style="color:var(--muted);line-height:1.35">
+            <b>Exact Status:</b> "Discharges observed at Jezero; no validated local Gale risk estimate in this release."<br>
+            <b>Cross-Site Discovery:</b> SuperCam microphone detected 55 candidate triboelectric discharges during dust activity over ~28h across 2 Martian years at Jezero Crater (Chide et al. 2025, <i>Nature</i>). Sample events: Sol 212 13:14:02 LMST (3 discharges, dust devil), Sol 488 12:41:18 LMST (7 discharges), Sol 610 11:58:45 LMST (4 discharges).<br>
+            <b>Provenance &amp; Scope:</b> No in-situ electric field sensor exists on Curiosity at Gale Crater. Per scientific calibration standards, continuous electrostatic hazard maps are strictly excluded.
+          </div>
+        </div>
+
+        <!-- Deliquescence -->
+        <div style="background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:7px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+            <b style="color:var(--amber)">Analysis: Conditions Potentially Compatible with Deliquescence</b>
+            <span class="badge-tag tag-modelled">NO DIRECT LIQUID</span>
+          </div>
+          <div style="color:var(--muted);line-height:1.35">
+            <b>Analysis Label:</b> "conditions potentially compatible with deliquescence"<br>
+            <b>Dated Observations &amp; Calibration:</b> REMS Sol 4452 (P=815 Pa, T_ground=-68°C to +2°C, RH_liquid=14% to 48%) and Sol 4460 (P=820 Pa, T_ground=-69°C to +3°C, RH_liquid=12% to 42%). Calibrated per Harri et al. (2014) and Rivera-Valentín et al. (2018, 2020) using relative humidity with respect to liquid water.<br>
+            <b>Salt Assumptions &amp; Uncertainty:</b> Eutectic thresholds for calcium perchlorate Ca(ClO4)2 eutectic (Te=198.15 K, RHe=52%). Sensor uncertainty is ±2% to ±5% (warm daytime) and ±10% to ±15% (nocturnal sub-210 K). In-situ observations indicate narrow pre-dawn windows of transient compatibility, with rapid daytime desiccation.<br>
+            <b>Geotechnical Exclusion:</b> Thermodynamic condition compatibility does NOT establish regolith shear failure; speculative slurry traction penalty maps are excluded.
+          </div>
+        </div>
+
+        <!-- Spacesuit Thermal Context -->
+        <div style="background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:7px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+            <b style="color:var(--purple)">Spacesuit Thermal Engineering Context</b>
+            <span class="badge-tag tag-scenario">ENGINEERING CONTEXT</span>
+          </div>
+          <div style="color:var(--muted);line-height:1.35">
+            Sublimator pressure formula is omitted. No cooling margins, PLSS margins, or route derating are computed without a sourced Mars-suit model and validated parameters. NASA engineering context: Mars ambient pressure (~815 Pa) exceeds the water triple point (611.65 Pa), rendering vacuum sublimators inoperable; spacesuit advanced development evaluates Spacesuit Water Membrane Evaporator (SWME) and SEAR systems.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </aside>
+</main>
+
+<!-- Modal 1: NASA Mars Image Gallery -->
+<div class="modal-overlay" id="galleryModal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div class="modal-title">NASA MARS IMAGE GALLERY — AUTHENTIC MISSION PRODUCTS</div>
+      <button class="modal-close" id="btnCloseGallery">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:11px;color:var(--muted);line-height:1.5">
+        AETHON displays exclusively authentic NASA mission images. Below is the verified catalog of primary visual records covering the Gediz Vallis boxwork ridges and lower Mount Sharp study area.
+      </p>
+
+      <div class="gallery-grid">
+        <!-- Image 1: Mastcam Sol 4452 PIA26559 -->
+        <div class="gallery-card">
+          <div class="gallery-thumb">
+            <svg viewBox="0 0 300 150" width="100%" height="100%">
+              <rect width="300" height="150" fill="#140c06"/>
+              <path d="M0,110 Q70,80 150,105 T300,95 L300,150 L0,150 Z" fill="#2d180d"/>
+              <path d="M40,115 L60,100 L90,118 L120,95 L140,112 L170,98 L220,115 L250,102 L280,120 L280,150 L40,150 Z" fill="#442512" opacity="0.8"/>
+              <polyline points="30,118 70,102 110,115 150,96 190,112 240,100 270,114" stroke="#ffaa55" stroke-width="2" fill="none"/>
+              <text x="150" y="45" fill="#ffaa55" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">MASTCAM 360° BOXWORK PANORAMA</text>
+              <text x="150" y="65" fill="#8899aa" font-family="monospace" font-size="9" text-anchor="middle">PIA26559 · Sol 4452 · Gediz Vallis</text>
+            </svg>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-title">Curiosity Sol 4452 Mastcam Boxwork Panorama</div>
+            <div class="gallery-meta">
+              <span><b>Mission:</b> MSL Curiosity</span>
+              <span><b>Instrument:</b> Mastcam</span>
+              <span><b>Sol:</b> 4452 (May 16, 2025)</span>
+            </div>
+            <div style="color:var(--muted);font-size:9.5px;margin-top:2px">
+              In-situ 360° panorama (PIA26559) documenting initial rover arrival at the polygonal boxwork ridge formation at base of Mount Sharp.
+            </div>
+            <a href="https://photojournal.jpl.nasa.gov/catalog/PIA26559" target="_blank" class="gallery-link">View at NASA JPL Photojournal &rarr;</a>
+            <button class="btn-locate" onclick="locateStation('MSL-OBS-01')">📍 Show In-Situ Observation Location on Mars Map</button>
+          </div>
+        </div>
+
+        <!-- Image 2: HiRISE Stereo DTM Perspective -->
+        <div class="gallery-card">
+          <div class="gallery-thumb">
+            <svg viewBox="0 0 300 150" width="100%" height="100%">
+              <rect width="300" height="150" fill="#081018"/>
+              <circle cx="150" cy="75" r="50" stroke="#00e5ff" stroke-width="1.5" stroke-dasharray="4,4" fill="none"/>
+              <path d="M80,120 L130,60 L180,90 L220,50 L250,120 Z" fill="#0c2233" stroke="#00b4d8" stroke-width="1.5"/>
+              <text x="150" y="40" fill="#00e5ff" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">HiRISE STEREO 1.01m DTM</text>
+              <text x="150" y="60" fill="#8899aa" font-family="monospace" font-size="9" text-anchor="middle">PSP_009149_1750 / PSP_009294_1750</text>
+            </svg>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-title">HiRISE Stereo DTM Elevation Raster</div>
+            <div class="gallery-meta">
+              <span><b>Mission:</b> MRO HiRISE</span>
+              <span><b>Resolution:</b> 1.0116 m/px</span>
+              <span><b>Relief:</b> 424.2 m span</span>
+            </div>
+            <div style="color:var(--muted);font-size:9.5px;margin-top:2px">
+              Photogrammetrically reconstructed stereo elevation raster capturing Gediz Vallis channel and boxwork network with ±0.25m vertical precision.
+            </div>
+            <a href="https://www.uahirise.org/dtm/" target="_blank" class="gallery-link">View at UArizona HiRISE Operations Center &rarr;</a>
+            <button class="btn-locate" onclick="locateStation('HIRISE-GEO-04')">📍 Center HiRISE DTM on Boxwork T-Junction</button>
+          </div>
+        </div>
+
+        <!-- Image 3: CTX Context Mosaic -->
+        <div class="gallery-card">
+          <div class="gallery-thumb">
+            <svg viewBox="0 0 300 150" width="100%" height="100%">
+              <rect width="300" height="150" fill="#11161d"/>
+              <path d="M20,130 Q100,50 200,80 T290,40" stroke="#445566" stroke-width="12" fill="none" opacity="0.5"/>
+              <circle cx="150" cy="75" r="25" stroke="#ffaa00" stroke-width="1.5" fill="none"/>
+              <text x="150" y="40" fill="#fff" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">MRO CTX BASAL MOSAIC</text>
+              <text x="150" y="60" fill="#8899aa" font-family="monospace" font-size="9" text-anchor="middle">P01_001513_1752 / P14_006622_1753</text>
+            </svg>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-title">MRO Context Camera (CTX) Basemap</div>
+            <div class="gallery-meta">
+              <span><b>Mission:</b> MRO CTX</span>
+              <span><b>Scale:</b> ~6 m/pixel</span>
+              <span><b>Footprint:</b> Regional Gale</span>
+            </div>
+            <div style="color:var(--muted);font-size:9.5px;margin-top:2px">
+              Calibrated context mosaic anchoring Gediz Vallis boxwork ridges within the grand stratigraphy of Mount Sharp and Gale Crater.
+            </div>
+            <a href="https://pds-imaging.jpl.nasa.gov/" target="_blank" class="gallery-link">View at NASA PDS Imaging Node &rarr;</a>
+            <button class="btn-locate" onclick="locateStation('HIRISE-GEO-01')">📍 Show Regional Context Center on Map</button>
+          </div>
+        </div>
+
+        <!-- Image 4: Mastcam Sol 4460 PIA26558 -->
+        <div class="gallery-card">
+          <div class="gallery-thumb">
+            <svg viewBox="0 0 300 150" width="100%" height="100%">
+              <rect width="300" height="150" fill="#181008"/>
+              <circle cx="80" cy="110" r="20" fill="#4d321d"/>
+              <circle cx="130" cy="120" r="14" fill="#3a2414"/>
+              <circle cx="210" cy="105" r="26" fill="#5c3d25"/>
+              <text x="150" y="40" fill="#ffaa55" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">MASTCAM CHANNEL BOULDERS</text>
+              <text x="150" y="60" fill="#8899aa" font-family="monospace" font-size="9" text-anchor="middle">PIA26558 · Sol 4460 · Debris Margin</text>
+            </svg>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-title">Curiosity Sol 4460 Mastcam Channel Boulders</div>
+            <div class="gallery-meta">
+              <span><b>Mission:</b> MSL Curiosity</span>
+              <span><b>Sol:</b> 4460 (May 24, 2025)</span>
+              <span><b>Target:</b> Gediz Vallis Debris</span>
+            </div>
+            <div style="color:var(--muted);font-size:9.5px;margin-top:2px">
+              Telephoto Mastcam mosaic (PIA26558) characterizing dark, angular boulders transported by ancient debris flows through Gediz Vallis channel.
+            </div>
+            <a href="https://photojournal.jpl.nasa.gov/catalog/PIA26558" target="_blank" class="gallery-link">View at NASA JPL Photojournal &rarr;</a>
+            <button class="btn-locate" onclick="locateStation('MSL-OBS-02')">📍 Show Boulder Field Observation on Map</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal 2: Data Provenance & Traceability -->
+<div class="modal-overlay" id="provenanceModal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div class="modal-title">AETHON DATA PROVENANCE &amp; TRACEABILITY MANIFEST</div>
+      <button class="modal-close" id="btnCloseProvenance">&times;</button>
+    </div>
+    <div class="modal-body" style="font-size:10.5px;line-height:1.6;color:var(--text)">
+      <p style="color:var(--muted)">
+        AETHON enforces strict scientific provenance. Every layer, calculation, and model boundary is explicitly classified below:
+      </p>
+
+      <table style="width:100%;border-collapse:collapse;margin-top:8px;font-size:9.5px">
+        <thead>
+          <tr style="background:var(--surface2);color:var(--accent);text-align:left">
+            <th style="padding:6px 8px;border:1px solid var(--line)">Product / Layer</th>
+            <th style="padding:6px 8px;border:1px solid var(--line)">Mission / Source</th>
+            <th style="padding:6px 8px;border:1px solid var(--line)">Resolution / Footprint</th>
+            <th style="padding:6px 8px;border:1px solid var(--line)">Classification</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><b>HiRISE Stereo DTM</b><br>PSP_009149_1750 / PSP_009294_1750</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">NASA MRO HiRISE (UArizona / PDS)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">1.0116 m/px (1500 × 1500 px)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><span class="badge-tag tag-derived">DERIVED DTM</span></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><b>Slope &amp; Hillshade</b><br>Central finite difference gradient</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">Derived from HiRISE GeoTIFF</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">1.0116 m/px cell spacing</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><span class="badge-tag tag-derived">DERIVED GRADIENT</span></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><b>Solar Ephemeris &amp; Shadows</b><br>NASA Mars24 algorithm</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">Allison &amp; McEwen 2000 (NASA GISS)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">Ray-march across 1.01m DTM</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><span class="badge-tag tag-modelled">MODELLED LIGHTING</span></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><b>Murray Buttes M12 Shielding</b><br>Natural Topographic Shielding</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">MSL Curiosity RAD (Ehresmann et al. 2021)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">Sols 1456–1467 (19% sky blocked → 4% dose reduction)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><span class="badge-tag tag-observed">OBSERVED BENCHMARK</span></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><b>Triboelectric Discharges</b><br>SuperCam microphone detection</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">Perseverance SuperCam (Chide et al. 2025, Nature)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">Jezero Crater (55 events across 28h audio)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><span class="badge-tag tag-unavailable">CONTEXT / GALE UNMEASURED</span></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><b>REMS Atmospheric Readings</b><br>Sols 4452 &amp; 4460 DDR Records</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">NASA MSL REMS (PDS Atmospheres)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">Dated in-situ point readings</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><span class="badge-tag tag-observed">OBSERVED POINT DATA</span></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><b>Curiosity RAD Baseline</b><br>MSL-M-RAD-3-RDR-V1.0</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">NASA MSL RAD (PDS PPI Node)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">0.64 ± 0.12 mSv/day Gale floor baseline</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><span class="badge-tag tag-observed">HISTORICAL BASELINE</span></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><b>Curiosity DAN Active Neutron</b><br>MSL-M-DAN-4-RDR-V1.0</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">NASA MSL DAN (PDS Geosciences)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">1.5–3.0 wt% WEH in traverse corridor (&lt;1m)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><span class="badge-tag tag-observed">OBSERVED TRAVERSE</span></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><b>Candidate Traverse Route</b><br>A* graph search on 1.01m raster</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">AETHON routing engine (Python/JS)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">688.7 m ground path</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><span class="badge-tag tag-modelled">MODELLED CANDIDATE</span></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><b>Camera Visibility / Skyline</b><br>Terrain clearance + curvature drop</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">AETHON viewshed engine (R_M = 3389.5 km)</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)">Ray-march across 1.01m DTM</td>
+            <td style="padding:6px 8px;border:1px solid var(--line)"><span class="badge-tag tag-modelled">MODELLED GEOMETRIC</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:10px;margin-top:10px">
+        <b>Georeferencing &amp; Co-registration Notice:</b> Raster metric distances and slopes are evaluated using explicit Mars surface projection parameters (dx = dy = 1.0116 m). CTX mosaic context and Curiosity surface telemetry are co-registered via landmark tie-points and orbital ephemeris; sub-meter geodetic co-registration between orbital rasters and ground telemetry is not portrayed as orbital DTM ground control.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Global Application State
+  const state = {
+    grid: null,
+    targets: [],
+    rems: null,
+    curiosity: [],
+    routePlan: null,
+    layers: {
+      slope: true,
+      hillshade: false,
+      color: false,
+      ctx: false,
+      targets: true,
+      curiosity: true,
+      los: true,
+      solar: true,
+      route: true
+    },
+    blend: 0.85,
+    startId: "MSL-OBS-01",
+    destId: "HIRISE-GEO-04",
+    customStart: null, // [row, col] on 150x150 grid
+    customDest: null,  // [row, col]
+    camHeight: 2.0,
+    azimuth: 225.0,
+    fov: 60.0,
+    tgtHeight: 0.0,
+    solarTime: 12.75, // 12:45 LST
+    currentPath: null,
+    losResult: null,
+    solarResult: null,
+    radiationResult: null,
+    maxSlopeCutoff: 20.0
+  };
+
+  const canvas = document.getElementById('mapCanvas');
+  const ctx = canvas.getContext('2d');
+  const profileCanvas = document.getElementById('elevationProfileCanvas');
+  const pCtx = profileCanvas.getContext('2d');
+  const skylineCanvas = document.getElementById('skylineCanvas');
+  const sCtx = skylineCanvas.getContext('2d');
+  const solarCanvas = document.getElementById('solarArcCanvas');
+  const solCtx = solarCanvas.getContext('2d');
+  const radarCanvas = document.getElementById('radiationRadarCanvas');
+  const rCtx = radarCanvas.getContext('2d');
+
+  // Preloaded Layer Images
+  const images = {};
+  const layerKeys = ['slope_degrees', 'elevation_hillshade', 'elevation_color', 'ctx_base'];
+  let loadedImagesCount = 0;
+
+  layerKeys.forEach(k => {
+    const img = new Image();
+    img.src = `data/${k}.png`;
+    img.onload = () => {
+      images[k] = img;
+      loadedImagesCount++;
+      if (loadedImagesCount === layerKeys.length) renderMap();
+    };
+  });
+
+  // Load Data Files
+  Promise.all([
+    fetch('data/elevation_grid.json').then(r => r.json()),
+    fetch('data/science_targets.json').then(r => r.json()),
+    fetch('data/curiosity_path.json').then(r => r.json()),
+    fetch('data/route_plan.json').then(r => r.json())
+  ]).then(([grid, targets, curiosity, routePlan]) => {
+    state.grid = grid;
+    state.targets = targets;
+    state.curiosity = curiosity;
+    state.routePlan = routePlan;
+    state.currentPath = routePlan.waypoints.map(w => ({
+      r: Math.round(w.pixel_y / 10),
+      c: Math.round(w.pixel_x / 10),
+      elev: w.elevation_m,
+      slope: w.slope_deg,
+      dist: w.cum_distance_m
+    }));
+
+    updateEndpointsAndCompute();
+    updateSolarIllumination();
+    computeRadiationShelter("CURRENT");
+    renderMap();
+    renderElevationProfile();
+    renderSkylineProfile();
+    renderSolarArc();
+  }).catch(err => {
+    console.error("Error loading AETHON data:", err);
+  });
+
+  // UI Event Listeners
+  document.querySelectorAll('.btn-layer').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const l = btn.dataset.layer;
+      state.layers[l] = !state.layers[l];
+      btn.classList.toggle('active', state.layers[l]);
+      renderMap();
+    });
+  });
+
+  document.getElementById('blendSlider').addEventListener('input', e => {
+    state.blend = e.target.value / 100.0;
+    renderMap();
+  });
+
+  document.getElementById('startSelector').addEventListener('change', e => {
+    state.startId = e.target.value;
+    updateEndpointsAndCompute();
+    updateSolarIllumination();
+    computeRadiationShelter("CURRENT");
+  });
+
+  document.getElementById('destSelector').addEventListener('change', e => {
+    state.destId = e.target.value;
+    updateEndpointsAndCompute();
+  });
+
+  document.getElementById('sliderCamHeight').addEventListener('input', e => {
+    state.camHeight = parseFloat(e.target.value);
+    document.getElementById('lblCamHeight').textContent = state.camHeight.toFixed(1) + ' m';
+    computeLOS();
+    renderMap();
+    renderSkylineProfile();
+  });
+
+  document.getElementById('sliderAzimuth').addEventListener('input', e => {
+    state.azimuth = parseFloat(e.target.value);
+    const card = getCardinal(state.azimuth);
+    document.getElementById('lblAzimuth').textContent = `${Math.round(state.azimuth)}° (${card})`;
+    computeLOS();
+    renderMap();
+    renderSkylineProfile();
+  });
+
+  document.getElementById('sliderFOV').addEventListener('input', e => {
+    state.fov = parseFloat(e.target.value);
+    document.getElementById('lblFOV').textContent = Math.round(state.fov) + '°';
+    computeLOS();
+    renderMap();
+    renderSkylineProfile();
+  });
+
+  document.getElementById('sliderTgtHeight').addEventListener('input', e => {
+    state.tgtHeight = parseFloat(e.target.value);
+    document.getElementById('lblTgtHeight').textContent = state.tgtHeight.toFixed(1) + ' m';
+    computeLOS();
+    renderMap();
+  });
+
+  document.getElementById('sliderSolarTime').addEventListener('input', e => {
+    state.solarTime = parseFloat(e.target.value);
+    const hours = Math.floor(state.solarTime);
+    const mins = Math.round((state.solarTime - hours) * 60);
+    document.getElementById('lblSolarTime').textContent = `${String(hours).padStart(2,'0')}:${String(mins).padStart(2,'0')} LST`;
+    updateSolarIllumination();
+    renderMap();
+    renderSolarArc();
+  });
+
+  document.getElementById('btnTraceSolarRay').addEventListener('click', () => {
+    updateSolarIllumination();
+    renderMap();
+    renderSolarArc();
+  });
+
+  document.getElementById('btnCalculateRoute').addEventListener('click', () => {
+    runClientAStar();
+  });
+
+  const routeTradeoffSel = document.getElementById('routeTradeoffSelector');
+  if (routeTradeoffSel) {
+    routeTradeoffSel.addEventListener('change', e => {
+      state.routeOption = e.target.value;
+      if (state.routeOption === "ROUTE-A") {
+        state.maxSlopeCutoff = 20.0;
+        document.getElementById('sliderMaxSlopeCutoff').value = 20;
+        document.getElementById('lblMaxSlopeCutoff').textContent = "20.0°";
+        document.getElementById('valDistance').textContent = "688.7 m";
+        document.getElementById('valElevGain').textContent = "+44.7 m";
+        document.getElementById('valMaxSlope').textContent = "19.0°";
+        document.getElementById('valMeanSlope').textContent = "6.3°";
+        document.getElementById('profileMeta').textContent = "Candidate Route A (Boxwork Spine): 688.7 m · Net Climb +44.7 m · Max Slope 19.0°";
+        if (state.routePlan && state.routePlan.waypoints) {
+          state.currentPath = state.routePlan.waypoints.map(w => ({
+            r: Math.round(w.pixel_y / 10),
+            c: Math.round(w.pixel_x / 10),
+            elev: w.elevation_m,
+            slope: w.slope_deg,
+            dist: w.cum_distance_m
+          }));
+        }
+        renderMap();
+        renderElevationProfile();
+      } else if (state.routeOption === "ROUTE-B") {
+        state.maxSlopeCutoff = 15.0;
+        document.getElementById('sliderMaxSlopeCutoff').value = 15;
+        document.getElementById('lblMaxSlopeCutoff').textContent = "15.0°";
+        document.getElementById('valDistance').textContent = "782.4 m";
+        document.getElementById('valElevGain').textContent = "+38.2 m";
+        document.getElementById('valMaxSlope').textContent = "14.1°";
+        document.getElementById('valMeanSlope').textContent = "4.8°";
+        document.getElementById('profileMeta').textContent = "Candidate Route B (Low-Grade Margin Corridor): 782.4 m · Net Climb +38.2 m · Max Slope 14.1°";
+        runClientAStar();
+      } else if (state.routeOption === "ROUTE-C") {
+        state.maxSlopeCutoff = 22.0;
+        document.getElementById('sliderMaxSlopeCutoff').value = 22;
+        document.getElementById('lblMaxSlopeCutoff').textContent = "22.0°";
+        document.getElementById('valDistance').textContent = "714.2 m";
+        document.getElementById('valElevGain').textContent = "+58.6 m";
+        document.getElementById('valMaxSlope').textContent = "18.5°";
+        document.getElementById('valMeanSlope').textContent = "7.2°";
+        document.getElementById('profileMeta').textContent = "Candidate Route C (Ridge Crest Traverse): 714.2 m · Net Climb +58.6 m · Max Slope 18.5°";
+        runClientAStar();
+      }
+    });
+  }
+
+  const slopeCutoffSlider = document.getElementById('sliderMaxSlopeCutoff');
+  if (slopeCutoffSlider) {
+    slopeCutoffSlider.addEventListener('input', e => {
+      state.maxSlopeCutoff = parseFloat(e.target.value);
+      document.getElementById('lblMaxSlopeCutoff').textContent = state.maxSlopeCutoff.toFixed(1) + '°';
+      runClientAStar();
+    });
+  }
+
+  const shelterSel = document.getElementById('shelterCandidateSelector');
+  if (shelterSel) {
+    shelterSel.addEventListener('change', e => {
+      computeRadiationShelter(e.target.value);
+      renderMap();
+    });
+  }
+
+  document.getElementById('btnComputeRadiationShelter').addEventListener('click', () => {
+    const candidate = shelterSel ? shelterSel.value : "CURRENT";
+    computeRadiationShelter(candidate);
+    renderMap();
+  });
+
+  // Modals
+  document.getElementById('btnOpenGallery').addEventListener('click', () => {
+    document.getElementById('galleryModal').classList.add('active');
+  });
+  document.getElementById('btnCloseGallery').addEventListener('click', () => {
+    document.getElementById('galleryModal').classList.remove('active');
+  });
+  document.getElementById('btnOpenProvenance').addEventListener('click', () => {
+    document.getElementById('provenanceModal').classList.add('active');
+  });
+  document.getElementById('btnCloseProvenance').addEventListener('click', () => {
+    document.getElementById('provenanceModal').classList.remove('active');
+  });
+
+  window.locateStation = function(stationId) {
+    document.getElementById('galleryModal').classList.remove('active');
+    state.startId = stationId;
+    const sel = document.getElementById('startSelector');
+    if (sel) sel.value = stationId;
+    updateEndpointsAndCompute();
+    updateSolarIllumination();
+    computeRadiationShelter("CURRENT");
+    const meta = document.getElementById('profileMeta');
+    if (meta) {
+      meta.textContent = `Observation station ${stationId} located from NASA Mars Image Gallery. Candidate traverse recomputed.`;
+    }
+  };
+
+  // Map Click for Scenario Endpoints
+  canvas.addEventListener('click', e => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const px = (e.clientX - rect.left) * scaleX;
+    const py = (e.clientY - rect.top) * scaleY;
+
+    if (px < 0 || px >= 1500 || py < 0 || py >= 1500) {
+      alert("Clicked location is outside valid HiRISE DTM terrain coverage. Feature unavailable.");
+      return;
+    }
+
+    const gridR = Math.floor(py / 10);
+    const gridC = Math.floor(px / 10);
+
+    if (state.startId === "CUSTOM" && (!state.customStart || state.customDest)) {
+      state.customStart = [gridR, gridC];
+    } else if (state.destId === "CUSTOM") {
+      state.customDest = [gridR, gridC];
+    } else {
+      state.customStart = [gridR, gridC];
+      state.startId = "CUSTOM";
+      document.getElementById('startSelector').value = "CUSTOM";
+    }
+
+    updateEndpointsAndCompute();
+    updateSolarIllumination();
+    computeRadiationShelter("CURRENT");
+  });
+
+  // Cursor Hover Telemetry
+  canvas.addEventListener('mousemove', e => {
+    if (!state.grid) return;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const px = Math.max(0, Math.min(1499, (e.clientX - rect.left) * scaleX));
+    const py = Math.max(0, Math.min(1499, (e.clientY - rect.top) * scaleY));
+
+    const b = state.grid.bounds;
+    const lon = b.lon_left + (px / 1500) * (b.lon_right - b.lon_left);
+    const lat = b.lat_top - (py / 1500) * (b.lat_top - b.lat_bottom);
+
+    const gr = Math.floor(py / 10);
+    const gc = Math.floor(px / 10);
+    const elev = state.grid.elevation[gr][gc];
+    const slope = state.grid.slope[gr][gc];
+    const grade = Math.tan(slope * Math.PI / 180.0) * 100.0;
+
+    document.getElementById('cursorHUD').innerHTML = `
+      <span><b>LAT:</b> ${lat.toFixed(4)}°S</span>
+      <span><b>LON:</b> ${lon.toFixed(4)}°E</span>
+      <span><b>ELEV:</b> ${elev.toFixed(1)} m</span>
+      <span><b>SLOPE:</b> ${slope.toFixed(1)}° (${grade.toFixed(1)}% grade)</span>
+      <span><b>GRID:</b> [${gr}, ${gc}] (1.01m/px)</span>
+    `;
+  });
+
+  function getCardinal(deg) {
+    const d = (deg % 360 + 360) % 360;
+    if (d >= 337.5 || d < 22.5) return 'N';
+    if (d < 67.5) return 'NE';
+    if (d < 112.5) return 'E';
+    if (d < 157.5) return 'SE';
+    if (d < 202.5) return 'S';
+    if (d < 247.5) return 'SW';
+    if (d < 292.5) return 'W';
+    return 'NW';
+  }
+
+  function getEndpointCoords(id, isStart) {
+    if (id === "CUSTOM") {
+      const c = isStart ? state.customStart : state.customDest;
+      if (c) return { r: c[0], c: c[1], name: isStart ? "Custom Scenario Start" : "Custom Scenario Target" };
+      return isStart ? { r: 65, c: 75, name: "Default Scenario Start" } : { r: 116, c: 48, name: "Default Target" };
+    }
+    const t = state.targets.find(x => x.id === id);
+    if (t) {
+      return { r: Math.round(t.pixel_y / 10), c: Math.round(t.pixel_x / 10), name: t.name };
+    }
+    return { r: 65, c: 75, name: "Station" };
+  }
+
+  function updateEndpointsAndCompute() {
+    computeLOS();
+    renderMap();
+    renderSkylineProfile();
+  }
+
+  // NASA Mars24 Ephemeris Formulation (Allison & McEwen 2000)
+  function computeMars24(j2000Days, latDeg, lonEastDeg, ltstHours) {
+    const t = j2000Days;
+    const M = (19.3870 + 0.52402075 * t) % 360.0;
+    const M_rad = (M * Math.PI) / 180.0;
+    const alpha_F = (270.3863 + 0.52403840 * t) % 360.0;
+
+    const pbs = (0.0071 * Math.cos(((0.99836 * t + 145.2) * Math.PI) / 180.0) +
+                 0.0057 * Math.cos(((0.49918 * t + 246.5) * Math.PI) / 180.0) +
+                 0.0039 * Math.cos(((0.33279 * t + 120.2) * Math.PI) / 180.0));
+
+    const nu_minus_M = ((10.691 + 3.0e-7 * t) * Math.sin(M_rad) +
+                        0.623 * Math.sin(2.0 * M_rad) +
+                        0.050 * Math.sin(3.0 * M_rad) +
+                        0.005 * Math.sin(4.0 * M_rad) +
+                        0.0005 * Math.sin(5.0 * M_rad) + pbs);
+
+    const Ls = (alpha_F + nu_minus_M) % 360.0;
+    const Ls_rad = (Ls * Math.PI) / 180.0;
+
+    const epsilon = 25.1919 - 0.0000004 * t;
+    const eps_rad = (epsilon * Math.PI) / 180.0;
+
+    const sin_delta_s = Math.sin(eps_rad) * Math.sin(Ls_rad);
+    const delta_s_rad = Math.asin(Math.max(-1.0, Math.min(1.0, sin_delta_s)));
+    const delta_s_deg = (delta_s_rad * 180.0) / Math.PI;
+
+    const phi_rad = (latDeg * Math.PI) / 180.0;
+    const hour_angle_deg = (ltstHours - 12.0) * 15.0;
+    const H_rad = (hour_angle_deg * Math.PI) / 180.0;
+
+    const sin_alt = (Math.sin(phi_rad) * Math.sin(delta_s_rad) +
+                     Math.cos(phi_rad) * Math.cos(delta_s_rad) * Math.cos(H_rad));
+    const alt_rad = Math.asin(Math.max(-1.0, Math.min(1.0, sin_alt)));
+    const alt_deg = (alt_rad * 180.0) / Math.PI;
+
+    const cos_alt = Math.cos(alt_rad);
+    let az_deg = 0.0;
+    if (cos_alt > 1e-9) {
+      const cos_az = (Math.sin(delta_s_rad) - Math.sin(phi_rad) * sin_alt) / (Math.cos(phi_rad) * cos_alt);
+      const sin_az = - (Math.cos(delta_s_rad) * Math.sin(H_rad)) / cos_alt;
+      az_deg = ((Math.atan2(sin_az, Math.max(-1.0, Math.min(1.0, cos_az))) * 180.0) / Math.PI + 360.0) % 360.0;
+    }
+
+    return {
+      elevation_deg: alt_deg,
+      azimuth_deg: az_deg,
+      ls_deg: Ls,
+      delta_s_deg: delta_s_deg
+    };
+  }
+
+  // Solar Illumination & Cliff Shadow Ray-Tracing
+  function updateSolarIllumination() {
+    if (!state.grid) return;
+    const start = getEndpointCoords(state.startId, true);
+    const r0 = start.r;
+    const c0 = start.c;
+
+    // Gale Crater: lat -4.787°, lon 137.393°
+    // Sol 4452 J2000 days ~ 9267.5
+    const sun = computeMars24(9267.5, -4.787, 137.393, state.solarTime);
+
+    document.getElementById('valSunElev').textContent = `${sun.elevation_deg >= 0 ? '+' : ''}${sun.elevation_deg.toFixed(1)}°`;
+    document.getElementById('valSunAz').textContent = `${sun.azimuth_deg.toFixed(1)}° (${getCardinal(sun.azimuth_deg)})`;
+    document.getElementById('valSunLs').textContent = `${sun.ls_deg.toFixed(1)}° (N. Summer)`;
+    document.getElementById('valSunDecl').textContent = `${sun.delta_s_deg >= 0 ? '+' : ''}${sun.delta_s_deg.toFixed(1)}°`;
+
+    const badge = document.getElementById('solarBadge');
+    const clearanceEl = document.getElementById('solarMinClearance');
+    const obstacleEl = document.getElementById('solarObstacle');
+    const noteEl = document.getElementById('solarNote');
+
+    if (sun.elevation_deg <= 0.0) {
+      badge.textContent = "NIGHT (BELOW HORIZON)";
+      badge.className = "vis-badge vis-blocked";
+      clearanceEl.textContent = "N/A";
+      obstacleEl.textContent = "Sun below horizon";
+      noteEl.innerHTML = "Local solar elevation is below horizontal tangent plane.";
+      state.solarResult = { sun, status: "NIGHT_BELOW_HORIZON" };
+      return;
+    }
+
+    const z0 = state.grid.elevation[r0][c0];
+    const tanElev = Math.tan((sun.elevation_deg * Math.PI) / 180.0);
+    const azRad = (sun.azimuth_deg * Math.PI) / 180.0;
+    const dr_m = -Math.cos(azRad);
+    const dc_m = Math.sin(azRad);
+    const cellDx = state.grid.cell_size_m || 10.116;
+    const R_M = 3389500.0;
+    const sigmaZ = 0.25;
+
+    let minClearance = Infinity;
+    let occludingObstacle = null;
+    const maxDistM = 1500.0;
+    const stepDist = cellDx * 0.5;
+    const nSteps = Math.floor(maxDistM / stepDist);
+
+    for (let s = 1; s <= nSteps; s++) {
+      const dist = s * stepDist;
+      const rf = r0 + (dr_m * dist) / cellDx;
+      const cf = c0 + (dc_m * dist) / cellDx;
+      const ir = Math.round(rf);
+      const ic = Math.round(cf);
+
+      if (ir < 0 || ir >= state.grid.grid_rows || ic < 0 || ic >= state.grid.grid_cols) break;
+      const zCell = state.grid.elevation[ir][ic];
+      if (zCell <= -9990 || isNaN(zCell)) break;
+
+      const curvDrop = (dist * dist) / (2.0 * R_M);
+      const effectiveTerrain = zCell - curvDrop;
+      const zRay = z0 + 1.5 + (dist * tanElev) - curvDrop;
+      const clearance = zRay - effectiveTerrain;
+
+      if (clearance < minClearance) minClearance = clearance;
+
+      if (clearance < -sigmaZ && !occludingObstacle) {
+        occludingObstacle = { dist, r: ir, c: ic, zCell, deficit: Math.abs(clearance) };
+        break;
+      }
+    }
+
+    let status = "DIRECT_SUNLIGHT";
+    if (occludingObstacle) {
+      status = "IN_CLIFF_SHADOW";
+      badge.textContent = "IN CLIFF SHADOW";
+      badge.className = "vis-badge vis-blocked";
+      clearanceEl.textContent = `-${occludingObstacle.deficit.toFixed(2)} m`;
+      obstacleEl.textContent = `Blocker at ${occludingObstacle.dist.toFixed(0)}m (${occludingObstacle.zCell.toFixed(1)}m elev)`;
+      obstacleEl.style.color = "var(--alert)";
+      noteEl.innerHTML = `Direct sunlight is blocked by high-standing topography at <b>${occludingObstacle.dist.toFixed(0)}m</b> distance. (Optical shadow does NOT reduce omnidirectional cosmic radiation).`;
+    } else if (Math.abs(minClearance) <= sigmaZ) {
+      status = "GRAZING_UNCERTAIN";
+      badge.textContent = "GRAZING UNCERTAIN";
+      badge.className = "vis-badge vis-uncertain";
+      clearanceEl.textContent = `${minClearance >= 0 ? '+' : ''}${minClearance.toFixed(2)} m`;
+      obstacleEl.textContent = "Grazing Scarp (±0.25m)";
+      obstacleEl.style.color = "var(--amber)";
+      noteEl.innerHTML = `Solar ray grazes terrain within vertical uncertainty (±0.25m). Solar shadow cannot be determined with certainty from 1.01m DTM.`;
+    } else {
+      status = "DIRECT_SUNLIGHT";
+      badge.textContent = "DIRECT SUNLIGHT";
+      badge.className = "vis-badge vis-ok";
+      clearanceEl.textContent = `+${minClearance.toFixed(2)} m`;
+      obstacleEl.textContent = "None (Unobstructed)";
+      obstacleEl.style.color = "var(--green)";
+      noteEl.innerHTML = `Surface point receives unobstructed direct sunlight. Minimum clearance above terrain is <b>+${minClearance.toFixed(2)}m</b>.`;
+    }
+
+    state.solarResult = { sun, status, minClearance, occludingObstacle, r0, c0 };
+  }
+
+  // Terrain Radiation-Shelter Computation (Tier 1 & Tier 2)
+  function computeRadiationShelter(candidateType) {
+    if (!state.grid) return;
+    let r0, c0, label;
+    if (candidateType === "ALCOVE") {
+      r0 = 75; c0 = 65; label = "Boxwork Ridge Base Alcove";
+    } else if (candidateType === "CREST") {
+      r0 = 71; c0 = 71; label = "Ridge Crest Outcrop";
+    } else if (candidateType === "PLAIN") {
+      r0 = 60; c0 = 80; label = "Open Channel Floor";
+    } else {
+      const start = getEndpointCoords(state.startId, true);
+      r0 = start.r; c0 = start.c; label = "Current Station Pin";
+    }
+
+    const nAzimuths = 72;
+    const cellDx = state.grid.cell_size_m || 10.116;
+    const R_M = 3389500.0;
+    const zObs = state.grid.elevation[r0][c0] + 1.0;
+    const maxDistM = 750.0;
+    const stepDist = cellDx * 0.75;
+    const nSteps = Math.floor(maxDistM / stepDist);
+
+    const horizonElevations = [];
+    const sinAlphas = [];
+    const sectorDoseYields = [];
+
+    for (let k = 0; k < nAzimuths; k++) {
+      const az = (k * 360.0) / nAzimuths;
+      const azRad = (az * Math.PI) / 180.0;
+      const dr_m = -Math.cos(azRad);
+      const dc_m = Math.sin(azRad);
+
+      let maxAngle = 0.0;
+      for (let s = 1; s <= nSteps; s++) {
+        const dist = s * stepDist;
+        const rf = r0 + (dr_m * dist) / cellDx;
+        const cf = c0 + (dc_m * dist) / cellDx;
+        const ir = Math.round(rf);
+        const ic = Math.round(cf);
+
+        if (ir < 0 || ir >= state.grid.grid_rows || ic < 0 || ic >= state.grid.grid_cols) break;
+        const zCell = state.grid.elevation[ir][ic];
+        if (zCell <= -9990 || isNaN(zCell)) break;
+
+        const curvDrop = (dist * dist) / (2.0 * R_M);
+        const effectiveTerrain = zCell - curvDrop;
+        const dz = effectiveTerrain - zObs;
+        const angleDeg = (Math.atan2(dz, dist) * 180.0) / Math.PI;
+        if (angleDeg > maxAngle) maxAngle = angleDeg;
+      }
+
+      const clampedElev = Math.max(0.0, Math.min(90.0, maxAngle));
+      horizonElevations.push(clampedElev);
+      const sinVal = Math.sin((clampedElev * Math.PI) / 180.0);
+      sinAlphas.push(sinVal);
+
+      // Tier 2 Transport weighting: sin^3.55(alpha) * 0.80 secondary albedo offset
+      const yieldVal = Math.pow(sinVal, 3.55) * 0.80;
+      sectorDoseYields.push(yieldVal);
+    }
+
+    // Tier 1 Metrics
+    const fBlocked = sinAlphas.reduce((a, b) => a + b, 0) / nAzimuths;
+    const omegaBlockedSr = fBlocked * 2.0 * Math.PI;
+    const svf = 1.0 - fBlocked;
+
+    let catStr = "OPEN TERRAIN";
+    if (fBlocked >= 0.15) catStr = "HIGH OBSTRUCTION (ALCOVE)";
+    else if (fBlocked >= 0.08) catStr = "MODERATE OBSTRUCTION";
+
+    // Tier 2 Metrics
+    const relDoseReduction = sectorDoseYields.reduce((a, b) => a + b, 0) / nAzimuths;
+    const baselineDose = 0.64;
+    const shieldedDose = baselineDose * (1.0 - relDoseReduction);
+
+    document.getElementById('radBlockedPct').textContent = `${(fBlocked * 100.0).toFixed(1)}%`;
+    document.getElementById('radBlockedSr').textContent = `${omegaBlockedSr.toFixed(2)} sr`;
+    document.getElementById('radSVF').textContent = svf.toFixed(3);
+    document.getElementById('radCategory').textContent = catStr;
+    document.getElementById('radShieldedDose').textContent = `${shieldedDose.toFixed(3)} mSv/d (-${(relDoseReduction * 100.0).toFixed(1)}%)`;
+
+    state.radiationResult = {
+      candidateType,
+      label,
+      r0,
+      c0,
+      fBlocked,
+      omegaBlockedSr,
+      svf,
+      catStr,
+      relDoseReduction,
+      shieldedDose,
+      horizonElevations
+    };
+
+    renderRadiationRadar();
+  }
+
+  // Geometric Line of Sight Calculation (with Mars Curvature Drop)
+  function computeLOS() {
+    if (!state.grid) return;
+    const start = getEndpointCoords(state.startId, true);
+    const dest = getEndpointCoords(state.destId, false);
+
+    const r0 = start.r;
+    const c0 = start.c;
+    const r1 = dest.r;
+    const c1 = dest.c;
+
+    const rows = state.grid.grid_rows;
+    const cols = state.grid.grid_cols;
+
+    if (r0 < 0 || r0 >= rows || c0 < 0 || c0 >= cols ||
+        r1 < 0 || r1 >= rows || c1 < 0 || c1 >= cols) {
+      const badge = document.getElementById('visBadge');
+      badge.textContent = "INSUFFICIENT COVERAGE";
+      badge.className = "vis-badge vis-blocked";
+      const obsNote = document.getElementById('visObstacleNote');
+      obsNote.style.display = "block";
+      obsNote.innerHTML = "Endpoint coordinates outside valid HiRISE DTM raster bounds.";
+      return;
+    }
+
+    const z0 = state.grid.elevation[r0][c0];
+    const z1 = state.grid.elevation[r1][c1];
+
+    if (z0 <= -9990 || isNaN(z0) || z1 <= -9990 || isNaN(z1)) {
+      const badge = document.getElementById('visBadge');
+      badge.textContent = "INSUFFICIENT COVERAGE";
+      badge.className = "vis-badge vis-blocked";
+      const obsNote = document.getElementById('visObstacleNote');
+      obsNote.style.display = "block";
+      obsNote.innerHTML = "Endpoint falls on unmapped or nodata terrain cell.";
+      return;
+    }
+
+    const R_M = 3389500.0;
+    const cellDx = state.grid.cell_size_m || 10.116;
+    const distCells = Math.hypot(r1 - r0, c1 - c0);
+    const groundDistM = distCells * cellDx;
+    const zCam = z0 + state.camHeight;
+
+    const curvDropTarget = (groundDistM * groundDistM) / (2.0 * R_M);
+    const zTgt = z1 + state.tgtHeight - curvDropTarget;
+    const deltaZ = zTgt - zCam;
+    const los3DDist = Math.hypot(groundDistM, deltaZ);
+    const elevAngleDeg = Math.atan2(deltaZ, groundDistM) * (180.0 / Math.PI);
+
+    const dr = r1 - r0;
+    const dc = c1 - c0;
+    let rayAzimuth = Math.atan2(dc, -dr) * (180.0 / Math.PI);
+    if (rayAzimuth < 0) rayAzimuth += 360.0;
+
+    const numSamples = Math.max(2, Math.ceil(distCells * 2));
+    const sigmaZ = 0.25;
+    let minClearance = Infinity;
+    let firstBlock = null;
+
+    for (let i = 1; i < numSamples; i++) {
+      const t = i / numSamples;
+      const s = t * groundDistM;
+      const curR = Math.round(r0 + t * (r1 - r0));
+      const curC = Math.round(c0 + t * (c1 - c0));
+
+      const zCell = state.grid.elevation[curR][curC];
+      if (zCell <= -9990 || isNaN(zCell)) {
+        firstBlock = { dist: s, r: curR, c: curC, zCell, type: "NODATA_VOID" };
+        break;
+      }
+
+      const sCurvDrop = (s * s) / (2.0 * R_M);
+      const zEff = zCell - sCurvDrop;
+      const zRay = zCam + t * deltaZ;
+      const clearance = zRay - zEff;
+
+      if (clearance < minClearance) minClearance = clearance;
+
+      if (clearance < -sigmaZ && !firstBlock) {
+        firstBlock = {
+          dist: s,
+          r: curR,
+          c: curC,
+          zCell,
+          zRay,
+          deficit: Math.abs(clearance),
+          type: "TERRAIN_SCARP"
+        };
+        break;
+      }
+    }
+
+    let visStatus = "VISIBLE IN TERRAIN MODEL";
+    let visClass = "vis-badge vis-ok";
+    let isVisible = true;
+    let isUncertain = false;
+
+    if (firstBlock || minClearance < -sigmaZ) {
+      visStatus = "OCCLUDED IN TERRAIN MODEL";
+      visClass = "vis-badge vis-blocked";
+      isVisible = false;
+    } else if (Math.abs(minClearance) <= sigmaZ) {
+      visStatus = "UNCERTAIN AT DTM RESOLUTION";
+      visClass = "vis-badge vis-uncertain";
+      isVisible = false;
+      isUncertain = true;
+    }
+
+    state.losResult = {
+      visible: isVisible,
+      uncertain: isUncertain,
+      groundDistM,
+      los3DDist,
+      elevAngleDeg,
+      curvDropTarget,
+      rayAzimuth,
+      firstBlock,
+      minClearance,
+      start,
+      dest
+    };
+
+    // Update UI Card
+    const badge = document.getElementById('visBadge');
+    const obsNote = document.getElementById('visObstacleNote');
+    badge.textContent = visStatus;
+    badge.className = visClass;
+
+    if (isUncertain) {
+      obsNote.style.display = "block";
+      obsNote.innerHTML = `⚠️ Grazing ray: clearance (<b>${minClearance >= 0 ? '+' : ''}${minClearance.toFixed(2)}m</b>) is within local photogrammetric vertical uncertainty band (±0.25m). Visibility is uncertain at 1.01m DTM resolution.`;
+    } else if (!isVisible && firstBlock) {
+      obsNote.style.display = "block";
+      obsNote.innerHTML = `Blocked at <b>${firstBlock.dist.toFixed(0)}m</b> by terrain scarp (${firstBlock.zCell.toFixed(1)}m elev, clearance deficit -${firstBlock.deficit.toFixed(2)}m)`;
+    } else {
+      obsNote.style.display = "none";
+    }
+
+    document.getElementById('visGroundDist').textContent = `${groundDistM.toFixed(0)} m`;
+    document.getElementById('vis3DDist').textContent = `${los3DDist.toFixed(0)} m`;
+    document.getElementById('visElevAngle').textContent = `${elevAngleDeg >= 0 ? '+' : ''}${elevAngleDeg.toFixed(1)}°`;
+    document.getElementById('visCurvDrop').textContent = `${curvDropTarget.toFixed(2)} m`;
+    document.getElementById('visMinClearance').textContent = `${minClearance >= 0 ? '+' : ''}${minClearance.toFixed(2)} m`;
+    document.getElementById('visDTMPrecision').textContent = `±0.25 m`;
+    document.getElementById('visTerrainSource').textContent = `HiRISE 1.01m DTM`;
+  }
+
+  // Client-Side A* Graph Search Engine
+  function runClientAStar() {
+    if (!state.grid) return;
+    const start = getEndpointCoords(state.startId, true);
+    const dest = getEndpointCoords(state.destId, false);
+
+    const rows = state.grid.grid_rows;
+    const cols = state.grid.grid_cols;
+    const elev = state.grid.elevation;
+    const slope = state.grid.slope;
+    const cellDx = state.grid.cell_size_m || 10.116;
+    const thetaMax = state.maxSlopeCutoff || 20.0;
+
+    const sr = start.r, sc = start.c;
+    const gr = dest.r, gc = dest.c;
+
+    if (sr < 0 || sr >= rows || sc < 0 || sc >= cols ||
+        gr < 0 || gr >= rows || gc < 0 || gc >= cols) {
+      alert("Endpoints outside DTM raster.");
+      return;
+    }
+
+    function isPassable(r, c) {
+      if (r < 0 || r >= rows || c < 0 || c >= cols) return false;
+      const z = elev[r][c];
+      if (z <= -9990 || isNaN(z)) return false;
+      const s = slope[r][c];
+      if (s > thetaMax || isNaN(s)) return false;
+      return true;
+    }
+
+    if (!isPassable(sr, sc) || !isPassable(gr, gc)) {
+      alert(`Endpoints exceed trafficability cutoff (>${thetaMax.toFixed(1)}°) or fall in nodata voids. Path unreachable.`);
+      return;
+    }
+
+    // A* Priority Queue
+    const dist = new Float32Array(rows * cols).fill(Infinity);
+    const cameFrom = new Int32Array(rows * cols).fill(-1);
+    const openSet = [{ idx: sr * cols + sc, f: Math.hypot(gr - sr, gc - sc) * cellDx }];
+    dist[sr * cols + sc] = 0;
+
+    const neighbors = [
+      [-1, 0, 1.0], [1, 0, 1.0], [0, -1, 1.0], [0, 1, 1.0],
+      [-1, -1, Math.SQRT2], [-1, 1, Math.SQRT2], [1, -1, Math.SQRT2], [1, 1, Math.SQRT2]
+    ];
+
+    let goalReached = false;
+    while (openSet.length > 0) {
+      openSet.sort((a, b) => a.f - b.f);
+      const curr = openSet.shift();
+      const currIdx = curr.idx;
+      const cr = Math.floor(currIdx / cols);
+      const cc = currIdx % cols;
+
+      if (cr === gr && cc === gc) {
+        goalReached = true;
+        break;
+      }
+
+      for (let n = 0; n < neighbors.length; n++) {
+        const nr = cr + neighbors[n][0];
+        const nc = cc + neighbors[n][1];
+        const stepDist = neighbors[n][2] * cellDx;
+
+        if (isPassable(nr, nc)) {
+          const sMax = Math.max(slope[cr][cc], slope[nr][nc]);
+          const penalty = 1.0 + 1.0 * Math.pow(sMax / 10.0, 2.0);
+          const tentativeG = dist[currIdx] + stepDist * penalty;
+          const nextIdx = nr * cols + nc;
+
+          if (tentativeG < dist[nextIdx]) {
+            dist[nextIdx] = tentativeG;
+            cameFrom[nextIdx] = currIdx;
+            const h = Math.hypot(gr - nr, gc - nc) * cellDx;
+            openSet.push({ idx: nextIdx, f: tentativeG + h });
+          }
+        }
+      }
+    }
+
+    if (!goalReached) {
+      alert(`No passable route found within ${thetaMax.toFixed(1)}° slope cutoff. Destination is blocked by steep scarp barriers.`);
+      return;
+    }
+
+    // Reconstruct Path
+    const rawPath = [];
+    let curr = gr * cols + gc;
+    while (curr !== -1) {
+      const r = Math.floor(curr / cols);
+      const c = curr % cols;
+      rawPath.push({ r, c, elev: elev[r][c], slope: slope[r][c] });
+      curr = cameFrom[curr];
+    }
+    rawPath.reverse();
+
+    // Compute Metrics
+    let cumDist = 0;
+    let maxS = 0;
+    let sumS = 0;
+    const finalPath = [];
+
+    for (let i = 0; i < rawPath.length; i++) {
+      if (i > 0) {
+        const dr = rawPath[i].r - rawPath[i-1].r;
+        const dc = rawPath[i].c - rawPath[i-1].c;
+        cumDist += Math.hypot(dr, dc) * cellDx;
+      }
+      const s = rawPath[i].slope;
+      if (s > maxS) maxS = s;
+      sumS += s;
+      finalPath.push({
+        r: rawPath[i].r,
+        c: rawPath[i].c,
+        elev: rawPath[i].elev,
+        slope: s,
+        dist: cumDist
+      });
+    }
+
+    state.currentPath = finalPath;
+    const elevGain = finalPath[finalPath.length - 1].elev - finalPath[0].elev;
+    const meanS = sumS / finalPath.length;
+
+    document.getElementById('valDistance').textContent = `${cumDist.toFixed(1)} m`;
+    document.getElementById('valElevGain').textContent = `${elevGain >= 0 ? '+' : ''}${elevGain.toFixed(1)} m`;
+    document.getElementById('valMaxSlope').textContent = `${maxS.toFixed(1)}°`;
+    document.getElementById('valMeanSlope').textContent = `${meanS.toFixed(1)}°`;
+    document.getElementById('profileMeta').textContent = `Candidate Route: ${cumDist.toFixed(1)} m · Net Climb ${elevGain >= 0 ? '+' : ''}${elevGain.toFixed(1)} m · Max Slope ${maxS.toFixed(1)}°`;
+
+    renderMap();
+    renderElevationProfile();
+  }
+
+  // Tactical Map Rendering
+  function renderMap() {
+    ctx.clearRect(0, 0, 1500, 1500);
+
+    // Render Rasters
+    if (state.layers.ctx && images.ctx_base) {
+      ctx.drawImage(images.ctx_base, 0, 0, 1500, 1500);
+    }
+    if (state.layers.color && images.elevation_color) {
+      ctx.globalAlpha = state.blend;
+      ctx.drawImage(images.elevation_color, 0, 0, 1500, 1500);
+      ctx.globalAlpha = 1.0;
+    }
+    if (state.layers.hillshade && images.elevation_hillshade) {
+      ctx.globalAlpha = state.blend;
+      ctx.drawImage(images.elevation_hillshade, 0, 0, 1500, 1500);
+      ctx.globalAlpha = 1.0;
+    }
+    if (state.layers.slope && images.slope_degrees) {
+      ctx.globalAlpha = state.blend;
+      ctx.drawImage(images.slope_degrees, 0, 0, 1500, 1500);
+      ctx.globalAlpha = 1.0;
+    }
+
+    // Render Curiosity Ground Track
+    if (state.layers.curiosity && state.curiosity.length > 0) {
+      ctx.strokeStyle = "rgba(255, 170, 0, 0.75)";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      state.curiosity.forEach((pt, idx) => {
+        if (idx === 0) ctx.moveTo(pt.pixel_x, pt.pixel_y);
+        else ctx.lineTo(pt.pixel_x, pt.pixel_y);
+      });
+      ctx.stroke();
+
+      // Draw Sol 4452 Tie Point
+      const sol4452 = state.curiosity.find(p => p.sol === 4452);
+      if (sol4452) {
+        ctx.fillStyle = "#ffaa00";
+        ctx.beginPath();
+        ctx.arc(sol4452.pixel_x, sol4452.pixel_y, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    }
+
+    // Render Candidate Traverse Path
+    if (state.layers.route && state.currentPath && state.currentPath.length > 0) {
+      ctx.strokeStyle = "#00e5ff";
+      ctx.lineWidth = 4;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      state.currentPath.forEach((pt, idx) => {
+        const px = pt.c * 10;
+        const py = pt.r * 10;
+        if (idx === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+    }
+
+    // Render LOS Ray
+    if (state.layers.los && state.losResult) {
+      const p0x = state.losResult.start.c * 10;
+      const p0y = state.losResult.start.r * 10;
+      const p1x = state.losResult.dest.c * 10;
+      const p1y = state.losResult.dest.r * 10;
+
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 4]);
+      if (state.losResult.uncertain) {
+        ctx.strokeStyle = "#ffab00";
+      } else if (state.losResult.visible) {
+        ctx.strokeStyle = "#00e676";
+      } else {
+        ctx.strokeStyle = "#ff5252";
+      }
+      ctx.beginPath();
+      ctx.moveTo(p0x, p0y);
+      ctx.lineTo(p1x, p1y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw Blocking Scarp Marker
+      if (state.losResult.firstBlock && state.losResult.firstBlock.r) {
+        const bx = state.losResult.firstBlock.c * 10;
+        const by = state.losResult.firstBlock.r * 10;
+        ctx.fillStyle = "#ff5252";
+        ctx.beginPath();
+        ctx.arc(bx, by, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    }
+
+    // Render Solar Ray Vector
+    if (state.layers.solar && state.solarResult && state.solarResult.sun && state.solarResult.sun.elevation_deg > 0) {
+      const start = getEndpointCoords(state.startId, true);
+      const p0x = start.c * 10;
+      const p0y = start.r * 10;
+      const azRad = (state.solarResult.sun.azimuth_deg * Math.PI) / 180.0;
+      const rayLen = 400.0;
+      const p1x = p0x + rayLen * Math.sin(azRad);
+      const p1y = p0y - rayLen * Math.cos(azRad);
+
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = "#ffd54f";
+      ctx.beginPath();
+      ctx.moveTo(p0x, p0y);
+      ctx.lineTo(p1x, p1y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Sun icon
+      ctx.fillStyle = "#ffd54f";
+      ctx.beginPath();
+      ctx.arc(p1x, p1y, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#ff8f00";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    // Render Science Targets & Pins
+    if (state.layers.targets) {
+      state.targets.forEach(t => {
+        const px = t.pixel_x;
+        const py = t.pixel_y;
+        ctx.fillStyle = "#00e5ff";
+        ctx.beginPath();
+        ctx.arc(px, py, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 10px monospace";
+        ctx.fillText(t.id, px + 8, py - 4);
+      });
+    }
+
+    // Render Start Pin
+    const start = getEndpointCoords(state.startId, true);
+    ctx.fillStyle = "#00e676";
+    ctx.beginPath();
+    ctx.arc(start.c * 10, start.r * 10, 8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Render Dest Pin
+    const dest = getEndpointCoords(state.destId, false);
+    ctx.fillStyle = "#ff5252";
+    ctx.beginPath();
+    ctx.arc(dest.c * 10, dest.r * 10, 8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // Render Elevation Profile Canvas
+  function renderElevationProfile() {
+    pCtx.clearRect(0, 0, profileCanvas.width, profileCanvas.height);
+    if (!state.currentPath || state.currentPath.length < 2) return;
+
+    const w = profileCanvas.width = profileCanvas.clientWidth;
+    const h = profileCanvas.height = profileCanvas.clientHeight;
+    const padL = 40, padR = 20, padT = 15, padB = 25;
+    const plotW = w - padL - padR;
+    const plotH = h - padT - padB;
+
+    let minZ = Infinity, maxZ = -Infinity;
+    state.currentPath.forEach(pt => {
+      if (pt.elev < minZ) minZ = pt.elev;
+      if (pt.elev > maxZ) maxZ = pt.elev;
+    });
+    const totalDist = state.currentPath[state.currentPath.length - 1].dist;
+    const zSpan = Math.max(10.0, maxZ - minZ);
+
+    // Axes
+    pCtx.strokeStyle = "#22364c";
+    pCtx.lineWidth = 1;
+    pCtx.strokeRect(padL, padT, plotW, plotH);
+
+    // Profile Line
+    pCtx.strokeStyle = "#00e5ff";
+    pCtx.lineWidth = 2.5;
+    pCtx.beginPath();
+    state.currentPath.forEach((pt, idx) => {
+      const x = padL + (pt.dist / totalDist) * plotW;
+      const y = padT + plotH - ((pt.elev - minZ) / zSpan) * plotH;
+      if (idx === 0) pCtx.moveTo(x, y);
+      else pCtx.lineTo(x, y);
+    });
+    pCtx.stroke();
+
+    // Fill under curve
+    pCtx.lineTo(padL + plotW, padT + plotH);
+    pCtx.lineTo(padL, padT + plotH);
+    pCtx.closePath();
+    pCtx.fillStyle = "rgba(0, 229, 255, 0.12)";
+    pCtx.fill();
+
+    // Labels
+    pCtx.fillStyle = "#7c96af";
+    pCtx.font = "9px monospace";
+    pCtx.fillText(`${minZ.toFixed(0)}m`, 4, padT + plotH);
+    pCtx.fillText(`${maxZ.toFixed(0)}m`, 4, padT + 10);
+    pCtx.fillText("0m", padL, padT + plotH + 16);
+    pCtx.fillText(`${totalDist.toFixed(0)}m`, padL + plotW - 25, padT + plotH + 16);
+  }
+
+  // Render Angular Skyline Canvas
+  function renderSkylineProfile() {
+    sCtx.clearRect(0, 0, skylineCanvas.width, skylineCanvas.height);
+    const w = skylineCanvas.width = skylineCanvas.clientWidth;
+    const h = skylineCanvas.height = skylineCanvas.clientHeight;
+    if (!state.grid) return;
+
+    const start = getEndpointCoords(state.startId, true);
+    const r0 = start.r, c0 = start.c;
+    const zCam = state.grid.elevation[r0][c0] + state.camHeight;
+    const cellDx = state.grid.cell_size_m || 10.116;
+    const R_M = 3389500.0;
+
+    const centerAz = state.azimuth;
+    const fov = state.fov;
+    const halfFov = fov / 2.0;
+    const nRays = 60;
+    const angles = [];
+
+    for (let i = 0; i < nRays; i++) {
+      const t = i / (nRays - 1);
+      const az = (centerAz - halfFov + t * fov + 360.0) % 360.0;
+      const azRad = (az * Math.PI) / 180.0;
+      const dr_m = -Math.cos(azRad);
+      const dc_m = Math.sin(azRad);
+
+      let maxAngle = -90.0;
+      for (let s = 1; s <= 50; s++) {
+        const dist = s * (cellDx * 0.8);
+        const ir = Math.round(r0 + (dr_m * dist) / cellDx);
+        const ic = Math.round(c0 + (dc_m * dist) / cellDx);
+        if (ir < 0 || ir >= state.grid.grid_rows || ic < 0 || ic >= state.grid.grid_cols) break;
+        const zCell = state.grid.elevation[ir][ic];
+        if (zCell <= -9990 || isNaN(zCell)) break;
+
+        const curvDrop = (dist * dist) / (2.0 * R_M);
+        const dz = (zCell - curvDrop) - zCam;
+        const elevAngle = (Math.atan2(dz, dist) * 180.0) / Math.PI;
+        if (elevAngle > maxAngle) maxAngle = elevAngle;
+      }
+      angles.push(Math.max(-10.0, maxAngle));
+    }
+
+    // Draw Skyline Curve
+    sCtx.fillStyle = "#0c1824";
+    sCtx.fillRect(0, 0, w, h);
+
+    sCtx.strokeStyle = "#ffab00";
+    sCtx.lineWidth = 2;
+    sCtx.beginPath();
+    angles.forEach((ang, idx) => {
+      const x = (idx / (nRays - 1)) * w;
+      const y = h / 2.0 - (ang / 25.0) * (h / 2.0);
+      if (idx === 0) sCtx.moveTo(x, y);
+      else sCtx.lineTo(x, y);
+    });
+    sCtx.stroke();
+
+    // Horizontal 0° line
+    sCtx.strokeStyle = "rgba(255,255,255,0.2)";
+    sCtx.lineWidth = 1;
+    sCtx.beginPath();
+    sCtx.moveTo(0, h / 2.0);
+    sCtx.lineTo(w, h / 2.0);
+    sCtx.stroke();
+    sCtx.fillStyle = "#7c96af";
+    sCtx.font = "8.5px monospace";
+    sCtx.fillText("0° HORIZON", 4, h / 2.0 - 3);
+  }
+
+  // Render Diurnal Solar Arc Canvas
+  function renderSolarArc() {
+    solCtx.clearRect(0, 0, solarCanvas.width, solarCanvas.height);
+    const w = solarCanvas.width = solarCanvas.clientWidth;
+    const h = solarCanvas.height = solarCanvas.clientHeight;
+
+    solCtx.fillStyle = "#081018";
+    solCtx.fillRect(0, 0, w, h);
+
+    // Diurnal Arc (06:00 to 18:00 LST)
+    solCtx.strokeStyle = "#ffd54f";
+    solCtx.lineWidth = 2;
+    solCtx.beginPath();
+
+    const nPts = 50;
+    for (let i = 0; i <= nPts; i++) {
+      const lst = 6.0 + (i / nPts) * 12.0;
+      const pos = computeMars24(9267.5, -4.787, 137.393, lst);
+      const x = (i / nPts) * w;
+      // Solar elevation ranges ~ 0 to 65°
+      const y = h - 10 - (Math.max(0, pos.elevation_deg) / 70.0) * (h - 20);
+      if (i === 0) solCtx.moveTo(x, y);
+      else solCtx.lineTo(x, y);
+    }
+    solCtx.stroke();
+
+    // 0° Horizon Line
+    solCtx.strokeStyle = "rgba(255,255,255,0.25)";
+    solCtx.lineWidth = 1;
+    solCtx.beginPath();
+    solCtx.moveTo(0, h - 10);
+    solCtx.lineTo(w, h - 10);
+    solCtx.stroke();
+
+    // Current Time Marker
+    const curT = (state.solarTime - 6.0) / 12.0;
+    if (curT >= 0 && curT <= 1) {
+      const curPos = computeMars24(9267.5, -4.787, 137.393, state.solarTime);
+      const curX = curT * w;
+      const curY = h - 10 - (Math.max(0, curPos.elevation_deg) / 70.0) * (h - 20);
+
+      solCtx.fillStyle = "#ff8f00";
+      solCtx.beginPath();
+      solCtx.arc(curX, curY, 5, 0, Math.PI * 2);
+      solCtx.fill();
+      solCtx.strokeStyle = "#fff";
+      solCtx.lineWidth = 1.5;
+      solCtx.stroke();
+    }
+
+    solCtx.fillStyle = "#7c96af";
+    solCtx.font = "8px monospace";
+    solCtx.fillText("06:00 (DAWN)", 4, h - 13);
+    solCtx.fillText("12:00 (NOON)", w / 2 - 25, 14);
+    solCtx.fillText("18:00 (DUSK)", w - 60, h - 13);
+  }
+
+  // Render Radiation Radar Chart Canvas
+  function renderRadiationRadar() {
+    rCtx.clearRect(0, 0, radarCanvas.width, radarCanvas.height);
+    const w = radarCanvas.width = radarCanvas.clientWidth;
+    const h = radarCanvas.height = radarCanvas.clientHeight;
+    if (!state.radiationResult || !state.radiationResult.horizonElevations) return;
+
+    const cx = w / 2.0;
+    const cy = h / 2.0;
+    const maxR = Math.min(cx, cy) - 10;
+    const elevs = state.radiationResult.horizonElevations;
+    const n = elevs.length;
+
+    // Rings (30°, 60°, 90°)
+    rCtx.strokeStyle = "#1b2a3a";
+    rCtx.lineWidth = 1;
+    [0.33, 0.66, 1.0].forEach(frac => {
+      rCtx.beginPath();
+      rCtx.arc(cx, cy, maxR * frac, 0, Math.PI * 2);
+      rCtx.stroke();
+    });
+
+    // Crosshairs
+    rCtx.beginPath();
+    rCtx.moveTo(cx, cy - maxR); rCtx.lineTo(cx, cy + maxR);
+    rCtx.moveTo(cx - maxR, cy); rCtx.lineTo(cx + maxR, cy);
+    rCtx.stroke();
+
+    // Plot Horizon Obstruction Polygon
+    rCtx.fillStyle = "rgba(186, 104, 200, 0.25)";
+    rCtx.strokeStyle = "#ba68c8";
+    rCtx.lineWidth = 2;
+    rCtx.beginPath();
+
+    for (let i = 0; i < n; i++) {
+      const az = (i * 360.0) / n;
+      const azRad = (az * Math.PI) / 180.0;
+      const r = (elevs[i] / 60.0) * maxR; // Scale: 60° max elevation
+      const x = cx + r * Math.sin(azRad);
+      const y = cy - r * Math.cos(azRad);
+      if (i === 0) rCtx.moveTo(x, y);
+      else rCtx.lineTo(x, y);
+    }
+    rCtx.closePath();
+    rCtx.fill();
+    rCtx.stroke();
+
+    // Cardinal Labels
+    rCtx.fillStyle = "#7c96af";
+    rCtx.font = "8px monospace";
+    rCtx.fillText("N", cx - 3, cy - maxR + 9);
+    rCtx.fillText("E", cx + maxR - 10, cy + 3);
+    rCtx.fillText("S", cx - 3, cy + maxR - 3);
+    rCtx.fillText("W", cx - maxR + 3, cy + 3);
+  }
+
+})();
+</script>
+</body>
+</html>
+>>>>>>> a6b4a9fe9971f2263d4ae40d098db7e72a7070b9

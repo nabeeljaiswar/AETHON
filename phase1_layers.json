@@ -1,0 +1,136 @@
+{
+  "project": "AETHON",
+  "phase": "Phase 1 \u2014 NASA imagery and provenance viewer",
+  "updated_utc": "2026-11-14T09:15:00Z",
+  "data_policy": "NASA mission data and NASA mission metadata only. Do not substitute modeled, synthetic, or assumed values for missing observations. This build contains imagery/context and coordinate annotations only; it is not an operational safety or routing product.",
+  "area_of_interest": {
+    "definition": "Project-defined rectangular study area; coordinates are not a measured terrain boundary.",
+    "center": {
+      "latitude_planetographic_deg": -4.843,
+      "longitude_east_deg": 137.298
+    },
+    "bounds": {
+      "latitude_min_deg": -4.9,
+      "latitude_max_deg": -4.78,
+      "longitude_min_deg": 137.24,
+      "longitude_max_deg": 137.36
+    },
+    "approx_dimensions_km": {
+      "north_south": 7.1,
+      "east_west": 7.07
+    },
+    "approx_area_km2": 50.2,
+    "coordinate_reference": "Project-defined degree coordinates; cross-source CRS alignment to the CTX service is unvalidated."
+  },
+  "layers": [
+    {
+      "id": "ctx_regional_imagery",
+      "name": "MRO Context Camera (CTX) regional mosaic",
+      "status": "fetched_decoded_and_displayed",
+      "data_type": "Grayscale orbital image mosaic; not an elevation model",
+      "mission": "NASA Mars Reconnaissance Orbiter",
+      "instrument": "Context Camera (CTX)",
+      "service_operator": "Bruce Murray Laboratory / Caltech OnMars MapServer, exposed by the NASA Mars Trek WMTS resource",
+      "mars_trek_capabilities": "https://trek.nasa.gov/tiles/Mars/EQ/CTX_beta01_uncontrolled_5m_Caltech/1.0.0/WMTSCapabilities.xml",
+      "tile_service": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/{level}/{row}/{column}",
+      "service_spatial_reference_wkid": 104971,
+      "display_zoom_level": 12,
+      "displayed_bounds_deg": {
+        "longitude_min": 137.22,
+        "longitude_max": 137.42,
+        "latitude_min": -4.93,
+        "latitude_max": -4.75
+      },
+      "displayed_crop": {
+        "file": "gale_ctx_extended_z12.png",
+        "dimensions_px": [
+          2330,
+          2097
+        ],
+        "effective_scale_at_gale_m_per_pixel": 5.078
+      },
+      "retrieval_manifest": "ctx_tile_manifest.json",
+      "retrieval_result": "30 of 30 required 512x512 PNG tiles returned HTTP 200, decoded successfully, and recorded with byte counts and SHA-256 digests.",
+      "georeferencing_note": "The crop is arranged from the service tile matrix. NASA Mars Trek WMTS advertises ESRI:104905, while its linked ArcGIS REST MapServer reports WKID 104971; the mismatch is unresolved. No external coordinate annotations are drawn pending reconciliation and independent registration validation.",
+      "limitations": [
+        "Image only; not a numeric DEM",
+        "Not suitable for walking-scale slope, obstacle clearance, or route-safety calculations",
+        "Mosaic seams may be visible",
+        "Nominal pixel scale is not a claim of uniform source-image resolution or positional accuracy",
+        "External AOI/waypoint/observation coordinates are not overlaid because the advertised and REST service spatial references differ."
+      ],
+      "mars_trek_wmts_supported_crs": "ESRI:104905 (Mars 2000 oblate ellipsoid)"
+    },
+    {
+      "id": "mola_shaded_relief_context",
+      "name": "MGS MOLA global color shaded-relief tile",
+      "status": "fetched_and_decoded_context_only",
+      "data_type": "Rendered shaded-relief image; not numeric elevation samples",
+      "mission": "NASA Mars Global Surveyor",
+      "instrument": "Mars Orbiter Laser Altimeter (MOLA)",
+      "provider": "NASA Mars Trek / USGS Astrogeology product service",
+      "capabilities_url": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_MGS_MOLA_ClrShade_merge_global_463m/1.0.0/WMTSCapabilities.xml",
+      "downloaded_asset": {
+        "file": "gale_mola_tile_level5.jpg",
+        "dimensions_px": [
+          256,
+          256
+        ],
+        "format": "JPEG",
+        "zoom": 5,
+        "row": 16,
+        "column": 56
+      },
+      "viewer_use": "Separate thumbnail only; not georegistered as an overlay; no elevation range, contour, or slope is derived from this raster.",
+      "limitations": [
+        "Rendered color/shaded-relief visualization, not a numeric DEM",
+        "Coarse level-5 regional context only"
+      ]
+    },
+    {
+      "id": "hirise_observation_metadata",
+      "name": "HiRISE observation PSP_001752_1750",
+      "status": "metadata_only_image_and_footprint_not_placed",
+      "mission": "NASA Mars Reconnaissance Orbiter",
+      "instrument": "High Resolution Imaging Science Experiment (HiRISE)",
+      "observation_page": "https://www.uahirise.org/PSP_001752_1750",
+      "pds_directory": "https://hirise-pds.lpl.arizona.edu/PDS/EXTRAS/RDR/PSP/ORB_001700_001799/PSP_001752_1750/",
+      "observation_center_metadata": {
+        "latitude_deg": -4.843,
+        "longitude_east_deg": 137.298
+      },
+      "downloaded_image": false,
+      "georeferenced_footprint_loaded": false,
+      "viewer_use": "Source card only. No footprint, swath polygon, image coverage, local image detail, or point marker is asserted in the map."
+    },
+    {
+      "id": "msl_curiosity_waypoint",
+      "name": "MSL Curiosity Sol 4452 waypoint",
+      "status": "coordinate_reference_only_not_plotted",
+      "mission": "NASA Mars Science Laboratory",
+      "source_geojson": "https://mars.nasa.gov/mmgis-maps/MSL/Layers/json/MSL_waypoints.json",
+      "coordinate": {
+        "sol": 4452,
+        "latitude_planetographic_deg": -4.7872261,
+        "longitude_east_deg": 137.3926205
+      },
+      "viewer_use": "NASA coordinate reference only; not drawn on the raster pending CRS reconciliation."
+    },
+    {
+      "id": "mastcam_panorama_metadata",
+      "name": "Curiosity Mastcam boxwork panorama PIA26559",
+      "status": "metadata_reference_unplaced",
+      "source": "https://photojournal.jpl.nasa.gov/catalog/PIA26559",
+      "downloaded_image": false,
+      "georeferenced_in_viewer": false,
+      "viewer_use": "No panorama image or perspective is geolocated onto the orbital raster."
+    }
+  ],
+  "unsupported_operational_fields": {
+    "walking_scale_slopes": "Unavailable \u2014 no verified numeric DTM in this baseline.",
+    "traverse_routes_or_hazards": "Omitted \u2014 no terrain analysis or pathfinding is performed.",
+    "local_pressure": "Unavailable \u2014 no local pressure measurement is included.",
+    "radiation_dose_rate": "Unavailable \u2014 no calibrated RAD telemetry is included.",
+    "life_support_reserves": "Unavailable \u2014 no vehicle telemetry is included."
+  }
+}
