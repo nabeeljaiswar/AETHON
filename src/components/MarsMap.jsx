@@ -77,7 +77,6 @@ export default function MarsMap({
   const clickPinRef = useRef(null);
   const weatherMarkersRef = useRef([]);
   const latestPropsRef = useRef({ hourMtc, dustDevilActive, onSelectTarget });
-  latestPropsRef.current = { hourMtc, dustDevilActive, onSelectTarget };
 
   const [layerMode, setLayerMode] = useState('CTX_HD'); // CTX_HD | ALBEDO | MOLA_RELIEF
   const [is3DPitch, setIs3DPitch] = useState(true);
@@ -93,6 +92,10 @@ export default function MarsMap({
   });
 
   const evaPos = getAstronautPosition(hourMtc, dustDevilActive);
+
+  useEffect(() => {
+    latestPropsRef.current = { hourMtc, dustDevilActive, onSelectTarget };
+  });
 
   useEffect(() => {
     if (mapRef.current) return;
